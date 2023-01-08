@@ -9,13 +9,20 @@ import { fileURLToPath, URL } from 'node:url'
 export default defineConfig({
   plugins: [
     vue({
-      template: { transformAssetUrls }
+      template: {
+        transformAssetUrls
+      }
     }),
     quasar({
-      sassVariables: 'src/quasar-variables.sass'
+      sassVariables: 'src/styles/quasar-variables.sass'
     })
   ],
-  define: { 'process.env': {} },
+  define: {
+    'process.env': {
+      API_HOST: process.env.API_HOST,
+      API_PORT: process.env.API_PORT,
+    }
+  },
   resolve: {
     alias: {
       'vue': 'vue/dist/vue.esm-bundler.js',

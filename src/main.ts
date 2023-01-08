@@ -1,19 +1,6 @@
 // FILE: main.js
 
 import { createApp } from 'vue'
-import { Quasar } from 'quasar'
-
-// Import icon libraries
-import '@quasar/extras/roboto-font/roboto-font.css'
-import '@quasar/extras/material-icons/material-icons.css'
-import '@quasar/extras/material-icons-outlined/material-icons-outlined.css'
-import '@quasar/extras/material-icons-round/material-icons-round.css'
-import '@quasar/extras/material-icons-sharp/material-icons-sharp.css'
-import '@quasar/extras/mdi-v6/mdi-v6.css'
-import '@quasar/extras/fontawesome-v6/fontawesome-v6.css'
-
-// Import Quasar css
-import 'quasar/src/css/index.sass'
 
 const app = createApp({})
 
@@ -21,9 +8,23 @@ const app = createApp({})
 import router from '@/router/router'
 app.use(router)
 
-app.use(Quasar, {
-  plugins: {}, // import Quasar plugins and add here
-})
+// Pinia
+import { createPinia } from 'pinia'
+const pinia = createPinia()
+app.use(pinia)
+
+import axios from 'axios'
+declare global {
+  interface Window {
+    api: any;
+  }
+}
+window.api = axios.create({
+  baseURL: `http://localhost:8000/api/app`,
+});
+
+import { registerPlugins } from '@/plugins'
+registerPlugins(app)
 
 // Assumes you have a <div id="app"></div> in your index.html
 app.mount('#app')

@@ -1,5 +1,9 @@
 // @ts-nocheck
 import Index from '@/pages/Index.vue'
+import Login from '@/pages/Login.vue'
+import Signup from '@/pages/Signup.vue'
+import Forgot from '@/pages/Forgot.vue'
+
 import Home from '@/pages/Home/Index.vue'
 
 // Router
@@ -11,6 +15,9 @@ const routes = [
             { path: '', name: 'home', component: Home },
         ]
     },
+    { path: '/login', name: 'login', component: Login },
+    { path: '/signup', name: 'signup', component: Signup },
+    { path: '/forgot', name: 'forgot', component: Forgot },
 ]
 
 const router = createRouter({
