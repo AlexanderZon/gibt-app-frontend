@@ -19,8 +19,9 @@ declare global {
     api: any;
   }
 }
+axios.defaults.withCredentials = true;
 window.api = axios.create({
-  baseURL: `http://localhost:8000/api/app`,
+  baseURL: `http://api.gibt.docker.internal/`,
 });
 
 import { registerPlugins } from '@/plugins'
