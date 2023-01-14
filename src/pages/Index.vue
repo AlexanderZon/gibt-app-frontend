@@ -1,72 +1,165 @@
 <template>
-    <q-layout view="hHh lpR fFf">
+    <q-layout view="lHh lpR lFf">
+        <template v-if="!loading">
+            <q-header elevated
+                class="bg-primary text-white">
+                <q-toolbar>
+                    <q-btn dense
+                        flat
+                        round
+                        icon="menu"
+                        @click="toggleLeftDrawer" />
 
-        <q-header elevated class="bg-primary text-white" height-hint="98">
-            <q-toolbar>
-                <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
+                    <q-toolbar-title>
+                        <q-avatar>
+                            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
+                        </q-avatar>
+                        Title
+                    </q-toolbar-title>
+                </q-toolbar>
+            </q-header>
 
-                <q-toolbar-title>
-                    <q-avatar>
-                        <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
-                    </q-avatar>
-                    Title
-                </q-toolbar-title>
+            <q-drawer v-model="leftDrawerOpen"
+                side="left"
+                behavior="default"
+                elevated>
+                <q-scroll-area class="fit"
+                    style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd">
+                    <q-list>
+                        <template v-for="(menuItem, index) in menuList"
+                            :key="index">
+                            <q-item clickable
+                                :active="menuItem.label === 'Outbox'"
+                                v-ripple>
+                                <q-item-section avatar>
+                                    <q-icon :name="menuItem.icon" />
+                                </q-item-section>
+                                <q-item-section>
+                                    {{ menuItem.label }}
+                                </q-item-section>
+                            </q-item>
+                            <q-separator :key="'sep' + index"
+                                v-if="menuItem.separator" />
+                        </template>
+                        <q-item clickable
+                            @click="logout"
+                            v-ripple>
+                            <q-item-section avatar>
+                                <q-icon name="logout" />
+                            </q-item-section>
+                            <q-item-section>
+                                Logout
+                            </q-item-section>
+                        </q-item>
+                    </q-list>
+                </q-scroll-area>
+                <q-img class="absolute-top"
+                    src="https://cdn.quasar.dev/img/material.png"
+                    style="height: 150px">
+                    <div class="absolute-bottom bg-transparent">
+                        <q-avatar size="56px"
+                            class="q-mb-sm">
+                            <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+                        </q-avatar>
+                        <div class="text-weight-bold">{{ user.name }}</div>
+                        <div>{{ user.email }}</div>
+                    </div>
+                </q-img>
+            </q-drawer>
 
-                <q-btn dense flat round icon="menu" @click="toggleRightDrawer" />
-            </q-toolbar>
+            <!-- <q-drawer show-if-above
+                v-model="rightDrawerOpen"
+                side="right"
+                bordered>
+            </q-drawer> -->
 
-            <q-tabs align="left">
-                <q-route-tab to="/page1" label="Page One" />
-                <q-route-tab to="/page2" label="Page Two" />
-                <q-route-tab to="/page3" label="Page Three" />
-            </q-tabs>
-        </q-header>
+            <q-page-container>
+                <router-view />
+            </q-page-container>
 
-        <q-drawer show-if-above v-model="leftDrawerOpen" side="left" bordered>
-            <!-- drawer content -->
-        </q-drawer>
-
-        <q-drawer show-if-above v-model="rightDrawerOpen" side="right" bordered>
-            <!-- drawer content -->
-        </q-drawer>
-
-        <q-page-container>
-            <router-view />
-        </q-page-container>
-
-        <q-footer elevated class="bg-grey-8 text-white">
-            <q-toolbar>
-                <q-toolbar-title>
-                    <q-avatar>
-                        <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
-                    </q-avatar>
-                    <div>Title</div>
-                </q-toolbar-title>
-            </q-toolbar>
-        </q-footer>
-
+            <Footer></Footer>
+        </template>
     </q-layout>
 </template>
 
-<script>
-import { ref } from 'vue'
+<script setup lang="ts">
+import { ref, computed, onBeforeMount, reactive } from 'vue'
+import type { Ref } from 'vue'
+import auth from '@/packages/auth'
+import { AxiosError, AxiosResponse } from 'axios';
+import { AppAuthCheckResponseInterface } from '@/classes/interfaces/Auth/Auth';
+import { useRouter } from 'vue-router';
+import Footer from '@/components/layouts/Footer.vue'
+import UserInterface from '@/classes/models/User/UserInterface';
 
-export default {
-    setup() {
-        const leftDrawerOpen = ref(false)
-        const rightDrawerOpen = ref(false)
+const leftDrawerOpen = ref(true)
+const rightDrawerOpen = ref(false)
+let user: UserInterface
 
-        return {
-            leftDrawerOpen,
-            toggleLeftDrawer() {
-                leftDrawerOpen.value = !leftDrawerOpen.value
-            },
-
-            rightDrawerOpen,
-            toggleRightDrawer() {
-                rightDrawerOpen.value = !rightDrawerOpen.value
-            }
-        }
+const menuList = [
+    {
+        icon: 'mdi-view-dashboard-variant',
+        label: 'Dashboard',
+        separator: true
+    },
+    {
+        icon: 'send',
+        label: 'My Characters',
+        separator: false
+    },
+    {
+        icon: 'delete',
+        label: 'My Weapons',
+        separator: false
+    },
+    {
+        icon: 'help',
+        iconColor: 'primary',
+        label: 'Help',
+        separator: false
     }
+]
+
+let toggleLeftDrawer = () => {
+    leftDrawerOpen.value = !leftDrawerOpen.value
 }
+
+let toggleRightDrawer = () => {
+    rightDrawerOpen.value = !rightDrawerOpen.value
+}
+
+const router = useRouter()
+let loading: Ref<boolean> = ref(true)
+
+let goLogin = () => {
+    router.push({ name: 'login' })
+}
+
+let logout = () => {
+    auth.logout().then((response: AxiosResponse) => {
+        goLogin()
+    }).catch((thrown: AxiosError) => {
+        //
+    })
+}
+
+
+onBeforeMount(async () => {
+    await auth.csrf().then((response: AxiosResponse) => {
+        //
+    }).catch((thrown: AxiosError) => {
+        //
+    })
+    auth.check().then((response: AxiosResponse) => {
+        let response_data: AppAuthCheckResponseInterface = response.data
+        if (response_data.user == null) {
+            goLogin()
+        } else {
+            user = response_data.user
+            loading.value = false
+        }
+    }).catch((thrown: AxiosError) => {
+        //
+    })
+})
 </script>

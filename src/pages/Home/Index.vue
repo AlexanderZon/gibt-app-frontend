@@ -5,14 +5,20 @@
 </template>
 
 <script setup lang="ts">
+import { AxiosError, AxiosResponse } from 'axios';
 import { ref, reactive, computed, onBeforeMount } from 'vue'
 
 let loading = ref(false)
 
-onBeforeMount(() => {
-    loading.value = true
-    window.api.get('/auth/login').then((response: any) => {
+let logout = () => {
+    window.api.post('/api/app/auth/logout').then((response: AxiosResponse) => {
+        loading.value = false
+    }).catch((thrown: AxiosError) => {
         loading.value = false
     })
+}
+
+onBeforeMount(() => {
+    loading.value = true
 })
 </script>

@@ -19,8 +19,8 @@ declare global {
     api: any;
   }
 }
-axios.defaults.withCredentials = true;
 window.api = axios.create({
+  withCredentials: true,
   baseURL: `http://api.gibt.docker.internal/`,
 });
 
