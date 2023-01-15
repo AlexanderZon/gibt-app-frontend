@@ -86,7 +86,7 @@ const user = reactive(new auth.Login())
 
 const router = useRouter()
 let loading: Ref<boolean> = ref(true)
-let login_loading: Ref<boolean> = ref(true)
+let login_loading: Ref<boolean> = ref(false)
 
 let goHome = () => {
     router.push({ name: 'home' })
@@ -95,11 +95,11 @@ let goHome = () => {
 let login = () => {
     v$.value.$touch();
     if (!v$.value.$error) {
-        loading.value = true
+        login_loading.value = true
         auth.login(user).then((response: AxiosResponse) => {
             goHome()
         }).catch((thrown: AxiosError) => {
-            loading.value = false
+            login_loading.value = false
         })
     }
 }

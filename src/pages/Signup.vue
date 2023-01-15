@@ -125,11 +125,12 @@ import type { Ref } from 'vue'
 import Footer from '@/components/layouts/Footer.vue'
 import { required, sameAs, minLength, email } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
-import User from '@/classes/models/User'
-import axios from 'axios'
+import axios, { AxiosError, AxiosResponse } from 'axios'
 import hasError from '@/classes/validators/hasError'
+import auth from '@/packages/auth'
+import Error from '@/classes/interfaces/Responses/Error'
 
-let user: User = reactive(new User())
+let user = reactive(new auth.Signup())
 let repeat_password: Ref<string | null> = ref(null)
 
 let loading: Ref<boolean> = ref(false)
@@ -139,15 +140,12 @@ let signup_successed = ref(false)
 let signup = () => {
     v$.value.$touch();
     if (!v$.value.$error) {
-        window.api.post('/auth/signup', user).then((response: any) => {
+        auth.signup(user).then((response: AxiosResponse) => {
             loading.value = false
             signup_successed.value = true
-        }).catch((thrown: any) => {
-            if (axios.isAxiosError(thrown)) {
-                if (thrown.response?.data?.exception == 'App\\Exceptions\\API\\App\\Auth\\Signup\\EmailAlreadyExistsException') {
-                    email_already_exists.value = true
-                    console.log('Error: ', thrown.response.data)
-                }
+        }).catch((thrown: Error) => {
+            if (thrown.response?.data?.exception == 'App\\Exceptions\\API\\App\\Auth\\Signup\\EmailAlreadyExistsException') {
+                email_already_exists.value = true
             }
             loading.value = false
         })
