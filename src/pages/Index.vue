@@ -1,6 +1,6 @@
 <template>
     <q-layout view="lHh lpR lFf">
-        <template v-if="!loading">
+        <template v-if="!loading && user != null">
             <q-header elevated
                 class="bg-primary text-white">
                 <q-toolbar>
@@ -67,12 +67,6 @@
                 </q-img>
             </q-drawer>
 
-            <!-- <q-drawer show-if-above
-                v-model="rightDrawerOpen"
-                side="right"
-                bordered>
-            </q-drawer> -->
-
             <q-page-container>
                 <router-view />
             </q-page-container>
@@ -85,16 +79,13 @@
 <script setup lang="ts">
 import { ref, computed, onBeforeMount, reactive } from 'vue'
 import type { Ref } from 'vue'
-import auth from '@/packages/auth'
-import { AxiosError, AxiosResponse } from 'axios';
-import { AppAuthCheckResponseInterface } from '@/classes/interfaces/Auth/Auth';
 import { useRouter } from 'vue-router';
 import Footer from '@/components/layouts/Footer.vue'
-import UserInterface from '@/classes/models/User/UserInterface';
+import { useAuthStore } from '@/stores/auth/index'
+
+const store$ = useAuthStore()
 
 const leftDrawerOpen = ref(true)
-const rightDrawerOpen = ref(false)
-let user: UserInterface
 
 const menuList = [
     {
@@ -124,10 +115,6 @@ let toggleLeftDrawer = () => {
     leftDrawerOpen.value = !leftDrawerOpen.value
 }
 
-let toggleRightDrawer = () => {
-    rightDrawerOpen.value = !rightDrawerOpen.value
-}
-
 const router = useRouter()
 let loading: Ref<boolean> = ref(true)
 
@@ -135,31 +122,23 @@ let goLogin = () => {
     router.push({ name: 'login' })
 }
 
-let logout = () => {
-    auth.logout().then((response: AxiosResponse) => {
-        goLogin()
-    }).catch((thrown: AxiosError) => {
-        //
-    })
+let logout = async () => {
+    await store$.logout()
+    goLogin()
 }
 
+let user = computed(() => {
+    return store$.user
+})
 
 onBeforeMount(async () => {
-    await auth.csrf().then((response: AxiosResponse) => {
-        //
-    }).catch((thrown: AxiosError) => {
-        //
-    })
-    auth.check().then((response: AxiosResponse) => {
-        let response_data: AppAuthCheckResponseInterface = response.data
-        if (response_data.user == null) {
-            goLogin()
-        } else {
-            user = response_data.user
-            loading.value = false
-        }
-    }).catch((thrown: AxiosError) => {
-        //
-    })
+    await store$.csrf()
+    await store$.check()
+
+    if (user.value == null) {
+        goLogin()
+    } else {
+        loading.value = false
+    }
 })
 </script>

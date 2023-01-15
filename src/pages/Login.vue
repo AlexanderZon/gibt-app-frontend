@@ -13,24 +13,32 @@
                                     <div class="col-12">
                                         <div class="text-h5 q-mt-lg q-mb-lg text-center">Login Form</div>
                                     </div>
+                                    <div class="col-12"
+                                        v-if="bad_credentials">
+                                        <div class="text-negative">Wrong email or password</div>
+                                    </div>
+                                    <div class="col-12"
+                                        v-if="server_error">
+                                        <div class="text-negative">Server Error</div>
+                                    </div>
                                     <div class="col-12 q-mt-lg">
                                         <q-input filled
-                                            v-model="user.email"
+                                            v-model="login.email"
                                             label="Email"
-                                            :error="v$.user.email.$dirty && v$.user.email.$error">
+                                            :error="v$.login.email.$dirty && v$.login.email.$error">
                                             <template v-slot:error>
-                                                <template v-if="v$.user.email.required.$invalid">This field is required</template>
+                                                <template v-if="v$.login.email.required.$invalid">This field is required</template>
                                             </template>
                                         </q-input>
                                     </div>
                                     <div class="col-12 q-mt-lg">
                                         <q-input filled
-                                            v-model="user.password"
+                                            v-model="login.password"
                                             label="Password"
                                             type="password"
-                                            :error="v$.user.password.$dirty && v$.user.password.$error">
+                                            :error="v$.login.password.$dirty && v$.login.password.$error">
                                             <template v-slot:error>
-                                                <template v-if="v$.user.password.required.$invalid">This field is required</template>
+                                                <template v-if="v$.login.password.required.$invalid">This field is required</template>
                                             </template>
                                         </q-input>
                                     </div>
@@ -55,7 +63,7 @@
                                 <q-btn flat
                                     color="primary"
                                     :loading="login_loading"
-                                    @click="login">
+                                    @click="handleLogin">
                                     Login
                                 </q-btn>
                             </q-card-actions>
@@ -77,37 +85,48 @@ import type { Ref } from 'vue'
 import { required, sameAs, minLength, email } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
 import Footer from '@/components/layouts/Footer.vue'
-import { AxiosError, AxiosResponse } from 'axios'
 import { useRouter } from 'vue-router'
-import { AppAuthCheckResponseInterface } from '@/classes/interfaces/Auth/Auth'
-import auth from '@/packages/auth'
+import { useAuthStore } from '@/stores/auth/index'
+import LoginModel from '@/classes/models/Auth/Login/LoginModel'
 
-const user = reactive(new auth.Login())
+const store$ = useAuthStore()
+const login = reactive(new LoginModel())
 
 const router = useRouter()
 let loading: Ref<boolean> = ref(true)
 let login_loading: Ref<boolean> = ref(false)
+let bad_credentials: Ref<boolean> = ref(false)
+let server_error: Ref<boolean> = ref(false)
 
 let goHome = () => {
     router.push({ name: 'home' })
 }
 
-let login = () => {
+let handleLogin = async () => {
     v$.value.$touch();
     if (!v$.value.$error) {
         login_loading.value = true
-        auth.login(user).then((response: AxiosResponse) => {
-            goHome()
-        }).catch((thrown: AxiosError) => {
+        await store$.login(login).catch((thrown: Error) => {
             login_loading.value = false
+            if (thrown.message == 'Unauthorized') {
+                bad_credentials.value = true
+            } else {
+                server_error.value = true
+            }
         })
+        await store$.check()
+        if (user.value != null) {
+            goHome()
+        } else {
+            login_loading.value = false
+        }
     }
 }
 
 // Validator
 const rules = computed(() => {
     return {
-        user: {
+        login: {
             email: {
                 required,
                 email,
@@ -118,22 +137,21 @@ const rules = computed(() => {
         }
     }
 })
-const v$ = useVuelidate(rules, { user })
+const v$ = useVuelidate(rules, { login })
+
+let user = computed(() => {
+    return store$.user
+})
+
 onBeforeMount(async () => {
-    await auth.csrf().then((response: AxiosResponse) => {
-        //
-    }).catch((thrown: AxiosError) => {
-        //
-    })
-    auth.check().then((response: AxiosResponse) => {
-        let response_data: AppAuthCheckResponseInterface = response.data.user
-        if (response_data != null) {
-            goHome()
-        } else {
-            loading.value = false
-        }
-    }).catch((thrown: AxiosError) => {
-        //
-    })
+    login.email = 'amontenegro.sistemas@gmail.com'
+    login.password = 'q1w2e3r4t5.'
+    await store$.csrf()
+    await store$.check()
+    if (user.value != null) {
+        goHome()
+    } else {
+        loading.value = false
+    }
 })
 </script>
