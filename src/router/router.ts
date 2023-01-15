@@ -6,12 +6,21 @@ import Forgot from '@/pages/Forgot.vue'
 
 import Home from '@/pages/Home/Index.vue'
 
+import Characters from '@/pages/Characters/Index.vue'
+import Weapons from '@/pages/Weapons/Index.vue'
+import Account from '@/pages/Account/Index.vue'
+import Help from '@/pages/Help/Index.vue'
+
 // Router
 import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
 
 const routes = [
     {
         path: '/', component: Index, children: [
+            { path: 'characters', name: 'characters', component: Characters },
+            { path: 'weapons', name: 'weapons', component: Weapons },
+            { path: 'account', name: 'account', component: Account },
+            { path: 'help', name: 'help', component: Help },
             { path: '', name: 'home', component: Home },
         ]
     },

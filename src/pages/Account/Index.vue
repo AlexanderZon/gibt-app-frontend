@@ -1,6 +1,6 @@
 <template>
     <div>
-        Hola Mundo
+        Hello Account
     </div>
 </template>
 

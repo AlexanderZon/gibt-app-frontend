@@ -1,79 +1,86 @@
 <template>
-    <q-layout view="lHh lpR lFf">
-        <template v-if="!loading && user != null">
-            <q-header elevated
-                class="bg-primary text-white">
-                <q-toolbar>
-                    <q-btn dense
-                        flat
-                        round
-                        icon="menu"
-                        @click="toggleLeftDrawer" />
+    <div>
+        <q-layout view="lHh Lpr lff"
+            container
+            style="height: 100vh;"
+            class="shadow-2 rounded-borders">
+            <template v-if="!loading && user != null">
+                <q-header elevated
+                    class="bg-primary text-white">
+                    <q-toolbar>
+                        <q-btn dense
+                            flat
+                            round
+                            icon="menu"
+                            @click="toggleLeftDrawer" />
 
-                    <q-toolbar-title>
-                        <q-avatar>
-                            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
-                        </q-avatar>
-                        Title
-                    </q-toolbar-title>
-                </q-toolbar>
-            </q-header>
+                        <q-toolbar-title>
+                            <q-avatar>
+                                <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
+                            </q-avatar>
+                            Title
+                        </q-toolbar-title>
+                    </q-toolbar>
+                </q-header>
 
-            <q-drawer v-model="leftDrawerOpen"
-                side="left"
-                behavior="default"
-                elevated>
-                <q-scroll-area class="fit"
-                    style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd">
-                    <q-list>
-                        <template v-for="(menuItem, index) in menuList"
-                            :key="index">
+                <q-drawer v-model="leftDrawerOpen"
+                    side="left"
+                    behavior="default"
+                    elevated
+                    style="height: calc(100vh - 220px); margin-top: 150px; border-right: 1px solid #ddd">
+                    <q-scroll-area class="fit">
+                        <q-list>
+                            <template v-for="(menuItem, index) in menuList"
+                                :key="index">
+                                <q-item clickable
+                                    :active="menuItem.label === 'Outbox'"
+                                    router
+                                    :to="menuItem.to"
+                                    v-ripple>
+                                    <q-item-section avatar>
+                                        <q-icon :name="menuItem.icon" />
+                                    </q-item-section>
+                                    <q-item-section>
+                                        {{ menuItem.label }}
+                                    </q-item-section>
+                                </q-item>
+                                <q-separator :key="'sep' + index"
+                                    v-if="menuItem.separator" />
+                            </template>
                             <q-item clickable
-                                :active="menuItem.label === 'Outbox'"
+                                @click="logout"
                                 v-ripple>
                                 <q-item-section avatar>
-                                    <q-icon :name="menuItem.icon" />
+                                    <q-icon name="logout" />
                                 </q-item-section>
                                 <q-item-section>
-                                    {{ menuItem.label }}
+                                    Logout
                                 </q-item-section>
                             </q-item>
-                            <q-separator :key="'sep' + index"
-                                v-if="menuItem.separator" />
-                        </template>
-                        <q-item clickable
-                            @click="logout"
-                            v-ripple>
-                            <q-item-section avatar>
-                                <q-icon name="logout" />
-                            </q-item-section>
-                            <q-item-section>
-                                Logout
-                            </q-item-section>
-                        </q-item>
-                    </q-list>
-                </q-scroll-area>
-                <q-img class="absolute-top"
-                    src="https://cdn.quasar.dev/img/material.png"
-                    style="height: 150px">
-                    <div class="absolute-bottom bg-transparent">
-                        <q-avatar size="56px"
-                            class="q-mb-sm">
-                            <img src="https://cdn.quasar.dev/img/boy-avatar.png">
-                        </q-avatar>
-                        <div class="text-weight-bold">{{ user.name }}</div>
-                        <div>{{ user.email }}</div>
-                    </div>
-                </q-img>
-            </q-drawer>
+                        </q-list>
+                    </q-scroll-area>
+                    <q-img class="absolute-top"
+                        src="https://cdn.quasar.dev/img/material.png"
+                        style="height: 150px">
+                        <div class="absolute-bottom bg-transparent">
+                            <q-avatar size="56px"
+                                class="q-mb-sm">
+                                <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+                            </q-avatar>
+                            <div class="text-weight-bold">{{ user.name }}</div>
+                            <div>{{ user.email }}</div>
+                        </div>
+                    </q-img>
+                </q-drawer>
 
-            <q-page-container>
-                <router-view />
-            </q-page-container>
+                <q-page-container>
+                    <router-view></router-view>
+                </q-page-container>
 
-            <Footer></Footer>
-        </template>
-    </q-layout>
+                <Footer></Footer>
+            </template>
+        </q-layout>
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -91,21 +98,32 @@ const menuList = [
     {
         icon: 'mdi-view-dashboard-variant',
         label: 'Dashboard',
+        to: { name: 'home' },
         separator: true
     },
     {
-        icon: 'send',
+        icon: 'mdi-account-heart',
         label: 'My Characters',
+        to: { name: 'characters' },
         separator: false
     },
     {
-        icon: 'delete',
+        icon: 'mdi-sword',
         label: 'My Weapons',
+        to: { name: 'weapons' },
         separator: false
     },
     {
-        icon: 'help',
+        icon: 'mdi-account-circle',
         iconColor: 'primary',
+        label: 'Account',
+        to: { name: 'account' },
+        separator: false
+    },
+    {
+        icon: 'mdi-help-circle',
+        iconColor: 'primary',
+        to: { name: 'help' },
         label: 'Help',
         separator: false
     }
@@ -142,3 +160,18 @@ onBeforeMount(async () => {
     }
 })
 </script>
+
+<style lang="sass">
+.scroll 
+    margin-top: 50px
+    height: calc(100vh - 100px)
+.q-drawer-container
+    .scroll 
+        margin-top: 0px
+.q-page-container
+    // min-height: calc(100vh)
+    // max-height: calc(100vh)
+    padding-top: 0 !important
+    padding-bottom: 0 !important
+
+</style>

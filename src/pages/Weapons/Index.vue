@@ -1,6 +1,6 @@
 <template>
     <div>
-        Hola Mundo
+        Hello Weapons
     </div>
 </template>
 
