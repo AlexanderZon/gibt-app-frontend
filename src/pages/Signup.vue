@@ -44,36 +44,36 @@
                                     </div>
                                     <div class="col-12 q-mt-sm">
                                         <q-input filled
-                                            v-model="user.name"
+                                            v-model="signup.name"
                                             label="Name"
-                                            :error="v$.user.name.$dirty && v$.user.name.$error">
+                                            :error="v$.signup.name.$dirty && v$.signup.name.$error">
                                             <template v-slot:error>
-                                                <template v-if="v$.user.name.required.$invalid">This field is required</template>
+                                                <template v-if="v$.signup.name.required.$invalid">This field is required</template>
                                             </template>
                                         </q-input>
                                     </div>
                                     <div class="col-12 q-mt-sm">
                                         <q-input filled
-                                            v-model="user.email"
+                                            v-model="signup.email"
                                             label="E-mail"
-                                            :error="v$.user.email.$dirty && v$.user.email.$error"
+                                            :error="v$.signup.email.$dirty && v$.signup.email.$error"
                                             @update:model-value="resetEmailExistsFlag">
                                             <template v-slot:error>
-                                                <template v-if="v$.user.email.required.$invalid">This field is required</template>
-                                                <template v-if="v$.user.email.email.$invalid">This field must be a valid e-mail</template>
-                                                <template v-if="v$.user.email.alreadyExists.$invalid">This e-mail is associated to a registered account</template>
+                                                <template v-if="v$.signup.email.required.$invalid">This field is required</template>
+                                                <template v-if="v$.signup.email.email.$invalid">This field must be a valid e-mail</template>
+                                                <template v-if="v$.signup.email.alreadyExists.$invalid">This e-mail is associated to a registered account</template>
                                             </template>
                                         </q-input>
                                     </div>
                                     <div class="col-12 q-mt-sm">
                                         <q-input filled
-                                            v-model="user.password"
+                                            v-model="signup.password"
                                             label="Password"
                                             type="password"
-                                            :error="v$.user.password.$dirty && v$.user.password.$error">
+                                            :error="v$.signup.password.$dirty && v$.signup.password.$error">
                                             <template v-slot:error>
-                                                <template v-if="v$.user.password.required.$invalid">This field is required</template>
-                                                <template v-else-if="v$.user.password.minLengthValue.$invalid">This field must have at least 8 characters</template>
+                                                <template v-if="v$.signup.password.required.$invalid">This field is required</template>
+                                                <template v-else-if="v$.signup.password.minLengthValue.$invalid">This field must have at least 8 characters</template>
                                             </template>
                                         </q-input>
                                     </div>
@@ -103,7 +103,7 @@
                                 </q-btn>
                                 <q-btn flat
                                     color="primary"
-                                    @click="signup">
+                                    @click="handleSignup">
                                     Signup
                                 </q-btn>
                             </q-card-actions>
@@ -125,29 +125,31 @@ import type { Ref } from 'vue'
 import Footer from '@/components/layouts/Footer.vue'
 import { required, sameAs, minLength, email } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
-import axios, { AxiosError, AxiosResponse } from 'axios'
 import hasError from '@/classes/validators/hasError'
-import auth from '@/packages/auth'
-import Error from '@/classes/interfaces/Responses/Error'
+import SignupModel from '@/classes/models/Auth/Signup/SignupLogin'
+import { useAuthStore } from '@/stores/auth/index'
 
-let user = reactive(new auth.Signup())
+const store$ = useAuthStore()
+const signup = reactive(new SignupModel())
 let repeat_password: Ref<string | null> = ref(null)
 
 let loading: Ref<boolean> = ref(false)
 let email_already_exists = ref(false)
 let signup_successed = ref(false)
 
-let signup = () => {
+let handleSignup = async () => {
     v$.value.$touch();
     if (!v$.value.$error) {
-        auth.signup(user).then((response: AxiosResponse) => {
+        await store$.signup(signup).then(() => {
             loading.value = false
             signup_successed.value = true
         }).catch((thrown: Error) => {
-            if (thrown.response?.data?.exception == 'App\\Exceptions\\API\\App\\Auth\\Signup\\EmailAlreadyExistsException') {
-                email_already_exists.value = true
-            }
             loading.value = false
+            if (thrown.message == 'EmailAlreadyExistsException') {
+                email_already_exists.value = true
+            } else {
+                //
+            }
         })
     }
 }
@@ -159,7 +161,7 @@ let resetEmailExistsFlag = () => {
 // Validator
 const rules = computed(() => {
     return {
-        user: {
+        signup: {
             name: { required },
             email: {
                 required,
@@ -173,9 +175,9 @@ const rules = computed(() => {
         },
         repeat_password: {
             required,
-            sameAsPassword: sameAs(user.password)
+            sameAsPassword: sameAs(signup.password)
         },
     }
 })
-const v$ = useVuelidate(rules, { user, repeat_password })
+const v$ = useVuelidate(rules, { signup, repeat_password })
 </script>
