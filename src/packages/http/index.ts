@@ -83,6 +83,8 @@ class Http {
             let data: DataException = <DataException>thrown.response?.data
             if (data.exception == 'App\\Exceptions\\API\\App\\Auth\\Signup\\EmailAlreadyExistsException') {
                 throw new Error('EmailAlreadyExistsException', { cause: thrown })
+            } else if (data.exception == 'App\\Exceptions\\API\\App\\Accounts\\Characters\\CharacterDoNotBelongsToActualAccountException') {
+                throw new Error('CharacterDoNotBelongsToActualAccountException', { cause: thrown })
             } else {
                 throw new Error('Server Error', { cause: thrown })
             }

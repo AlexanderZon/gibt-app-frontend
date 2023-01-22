@@ -7,6 +7,9 @@ import Forgot from '@/pages/Forgot.vue'
 import Home from '@/pages/Home/Index.vue'
 
 import Characters from '@/pages/Characters/Index.vue'
+import CharactersList from '@/pages/Characters/List.vue'
+import CharactersForm from '@/pages/Characters/Form.vue'
+
 import Weapons from '@/pages/Weapons/Index.vue'
 import Account from '@/pages/Account/Index.vue'
 import Help from '@/pages/Help/Index.vue'
@@ -17,7 +20,13 @@ import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router
 const routes = [
     {
         path: '/', component: Index, children: [
-            { path: 'characters', name: 'characters', component: Characters },
+            {
+                path: 'characters', component: Characters, children: [
+                    { path: ':id/edit', name: 'characters/edit', component: CharactersForm },
+                    { path: 'create', name: 'characters/create', component: CharactersForm },
+                    { path: '', name: 'characters', component: CharactersList },
+                ]
+            },
             { path: 'weapons', name: 'weapons', component: Weapons },
             { path: 'account', name: 'account', component: Account },
             { path: 'help', name: 'help', component: Help },
@@ -30,9 +39,8 @@ const routes = [
 ]
 
 const router = createRouter({
-    // 4. Provide the history implementation to use. We are using the hash history for simplicity here.
     history: createWebHashHistory(),
-    routes, // short for `routes: routes`
+    routes,
 })
 
 export default router

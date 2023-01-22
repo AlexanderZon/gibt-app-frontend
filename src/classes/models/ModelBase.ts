@@ -1,9 +1,11 @@
 import ModelInterface from "./ModelInterface";
 
-class ModelBase implements ModelInterface {
-    id: number
-    constructor(data: ModelInterface) {
-        this.id = data.id
+class ModelBase {
+    id: number | string | null = null
+    constructor(data: any) {
+        if (data.id) {
+            this.id = data.id
+        }
     }
 }
 

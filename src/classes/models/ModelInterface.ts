@@ -1,5 +1,5 @@
 interface ModelInterface {
-    id: number
+    id?: number | string | null
 }
 
 export default ModelInterface

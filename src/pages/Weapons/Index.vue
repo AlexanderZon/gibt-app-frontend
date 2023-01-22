@@ -1,6 +1,6 @@
 <template>
     <div>
-        Hello Weapons
+        Hello Weapons.
     </div>
 </template>
 

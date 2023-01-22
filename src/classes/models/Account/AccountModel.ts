@@ -8,9 +8,10 @@ class AccountModel extends ModelBase implements AccountInterface {
 
     constructor(data: AccountInterface) {
         super(data)
-        this.user_id = data.user_id;
-        this.title = data.title;
-        this.game_server = data.game_server;
+        this.user_id = data.user_id
+        this.title = data.title
+        this.game_server = data.game_server
+
     }
 }
 
