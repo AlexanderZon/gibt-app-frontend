@@ -1,7 +1,8 @@
 <template>
     <div>
-        <q-card class="weapon-card text-white"
-            :class="{ 'rarity-5': accountWeapon.weapon.rarity == 5, 'rarity-4': accountWeapon.weapon.rarity == 4 }"
+        <q-card v-if="accountWeapon.weapon"
+            class="weapon-card text-white"
+            :class="{ 'rarity-5': accountWeapon.weapon.rarity == 5, 'rarity-4': accountWeapon.weapon.rarity == 4, 'rarity-3': accountWeapon.weapon.rarity == 3, 'rarity-2': accountWeapon.weapon.rarity == 2, 'rarity-1': accountWeapon.weapon.rarity == 1 }"
             @mouseover="weaponCardMouseOverEvent"
             @mouseleave="weaponCardMouseLeaveEvent">
             <q-card-section class="row items-center q-pa-none">

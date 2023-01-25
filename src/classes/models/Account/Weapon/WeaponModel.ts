@@ -37,7 +37,7 @@ class AccountWeaponModel implements AccountWeaponInterface {
         if (data.refinement_rank) {
             this.refinement_rank = data.refinement_rank
         } else {
-            this.refinement_rank = 0
+            this.refinement_rank = 1
         }
     }
 }

@@ -131,7 +131,7 @@ let filterAvailableWeapons = (val: string, done: Function) => {
 }
 
 let levels = ['1', '20', '20+', '40', '40+', '50', '50+', '60', '60+', '70', '70+', '80', '80+', '90']
-let refinement_ranks = [0, 1, 2, 3, 4, 5]
+let refinement_ranks = [1, 2, 3, 4, 5]
 
 let selectWeapon = (weapon: WeaponModel) => {
     //
