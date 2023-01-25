@@ -1,7 +1,11 @@
-# Vue 3 + Vite
-
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
-
-## Recommended IDE Setup
-
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+ - [-] 
+ - [-] Desarrollor el dashboard
+ - [-] Agregar personajes a la lista de Building
+ - [-] Crear módulo de ayuda
+ - [-] Crear módulo de gerenciamiento de cuenta
+ - [-] Visualizar Personajes relacionados al Arma
+ - [-] Crear Logo de la App
+ - [-] Visualizar el Nivel de los personajes
+ - [-] Visualizar el Arma de los Personajes de los personajes
+ - [-] Crear breadmrumbs de en App Bar
+ - [-] Mejorar filtro de armas disponibles para personajes en el formulario de edicion de personajes
