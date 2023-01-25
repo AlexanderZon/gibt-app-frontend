@@ -1,6 +1,7 @@
 <template>
     <div>
         <q-card class="character-card text-white"
+            v-if="accountCharacter.character"
             :class="{ 'rarity-5': accountCharacter.character.rarity == 5, 'rarity-4': accountCharacter.character.rarity == 4 }"
             @mouseover="characterCardMouseOverEvent"
             @mouseleave="characterCardMouseLeaveEvent">
@@ -36,7 +37,7 @@
         </q-card>
         <q-dialog v-model="delete_confirm"
             persistent>
-            <q-card>
+            <q-card v-if="accountCharacter.character">
                 <q-card-section class="row items-center">
                     <q-avatar v-if="accountCharacter.character.icon"
                         text-color="white">

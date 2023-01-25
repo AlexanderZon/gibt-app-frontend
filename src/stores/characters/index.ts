@@ -4,12 +4,15 @@ import AccountCharacterModel from "@/classes/models/Account/Characters/Character
 import AccountCharacterInterface from "@/classes/models/Account/Characters/CharacterInterface"
 import CharacterModel from "@/classes/models/Characters/CharacterModel"
 import CharacterInterface from "@/classes/models/Characters/CharacterInterface"
+import AccountWeaponModel from "@/classes/models/Account/Weapon/WeaponModel"
+import AccountWeaponInterface from "@/classes/models/Account/Weapon/WeaponInterface"
 
 const base = `account/characters`
 
 export const useCharactersStore = defineStore('characters', {
     state: () => ({
         characters: [] as CharacterModel[],
+        account_weapons: [] as AccountWeaponModel[],
         account_characters: [] as AccountCharacterModel[],
     }),
     actions: {
@@ -70,6 +73,9 @@ export const useCharactersStore = defineStore('characters', {
         fillFormData(response: any) {
             this.characters = response.data.form.characters.map((character: CharacterInterface) => {
                 return new CharacterModel(character)
+            })
+            this.account_weapons = response.data.form.account_weapons.map((account_weapon: AccountWeaponInterface) => {
+                return new AccountWeaponModel(account_weapon)
             })
         }
     },

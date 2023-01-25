@@ -1,12 +1,14 @@
 import CharacterInterface from "../../Characters/CharacterInterface"
 import ModelInterface from "../../ModelInterface"
+import AccountWeaponInterface from "../Weapon/WeaponInterface"
 
 interface AccountCharacterInterface extends ModelInterface {
     account_id?: number
     // account: object
     character_id?: number
-    character?: CharacterInterface
+    character?: CharacterInterface | null
     account_weapon_id?: number
+    account_weapon?: AccountWeaponInterface | null
     level?: string
     constellation_level?: number
     basic_talent_level?: number

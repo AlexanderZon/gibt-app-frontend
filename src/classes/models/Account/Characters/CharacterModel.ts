@@ -1,5 +1,6 @@
 import ModelBase from '@/classes/models/ModelBase'
 import CharacterModel from '../../Characters/CharacterModel'
+import AccountWeaponModel from '../Weapon/WeaponModel'
 import AccountCharacterInterface from './CharacterInterface'
 
 class AccountCharacterModel implements AccountCharacterInterface {
@@ -7,9 +8,9 @@ class AccountCharacterModel implements AccountCharacterInterface {
     declare account_id: number
     // declare account: object
     declare character_id: number
-    declare character: CharacterModel
+    declare character: CharacterModel | null
     declare account_weapon_id: number
-    // declare account_weapon: object
+    declare account_weapon: AccountWeaponModel | null
     declare level: string
     declare constellation_level: number
     declare basic_talent_level: number
@@ -43,9 +44,16 @@ class AccountCharacterModel implements AccountCharacterInterface {
         }
         if (data.character) {
             this.character = new CharacterModel(data.character)
+        } else {
+            this.character = null
         }
         if (data.account_weapon_id) {
             this.account_weapon_id = data.account_weapon_id
+        }
+        if (data.account_weapon) {
+            this.account_weapon = new AccountWeaponModel(data.account_weapon)
+        } else {
+            this.account_weapon = null
         }
         if (data.level) {
             this.level = data.level
@@ -57,12 +65,18 @@ class AccountCharacterModel implements AccountCharacterInterface {
         }
         if (data.basic_talent_level) {
             this.basic_talent_level = data.basic_talent_level
+        } else {
+            this.basic_talent_level = 1
         }
         if (data.elemental_talent_level) {
             this.elemental_talent_level = data.elemental_talent_level
+        } else {
+            this.elemental_talent_level = 1
         }
         if (data.burst_talent_level) {
             this.burst_talent_level = data.burst_talent_level
+        } else {
+            this.burst_talent_level = 1
         }
         if (data.friendship_level) {
             this.friendship_level = data.friendship_level

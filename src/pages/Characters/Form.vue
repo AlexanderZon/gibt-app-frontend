@@ -16,13 +16,14 @@
                         <q-btn flat
                             round
                             dense
+                            :loading="loading"
                             @click="handleFormSubmit">
                             <q-icon name="mdi-content-save" />
                         </q-btn>
                     </q-toolbar>
                     <div class="q-pa-md">
-                        <div class="q-gutter-md row">
-                            <div class="col-2">
+                        <div class="q-col-gutter-md row">
+                            <div class="col-3">
                                 <template v-if="actual_model.id != null">
                                     <q-chip v-if="actual_model.character"
                                         square
@@ -41,11 +42,11 @@
                                 <template v-else>
                                     <q-select filled
                                         v-model="actual_model.character"
-                                        :options="availableCharacters"
+                                        :options="characters"
                                         option-label="name"
                                         use-input
                                         label="Character"
-                                        @filter="filterAvailableCharacters"
+                                        @filter="filterCharacters"
                                         @update:model-value="selectCharacter">
                                         <template v-slot:selected>
                                             <q-chip v-if="actual_model.character"
@@ -76,17 +77,73 @@
                                     </q-select>
                                 </template>
                             </div>
-                            <div class="col-2">
+                            <div class="col-3">
+                                <q-select filled
+                                    v-model="actual_model.account_weapon"
+                                    :options="account_weapons"
+                                    option-label="name"
+                                    use-input
+                                    label="Weapon"
+                                    @filter="filterWeapons">
+                                    <template v-slot:selected>
+                                        <q-chip v-if="actual_model.account_weapon && actual_model.account_weapon.weapon"
+                                            dense
+                                            square
+                                            color="white"
+                                            text-color="primary"
+                                            class="q-my-none q-ml-xs q-mr-none">
+                                            <q-avatar v-if="actual_model.account_weapon.weapon.icon"
+                                                color="primary"
+                                                text-color="white">
+                                                <img :src="actual_model.account_weapon.weapon.icon">
+                                            </q-avatar>
+                                            {{ actual_model.account_weapon.weapon.name }}
+                                        </q-chip>
+                                    </template>
+                                    <template v-slot:option="scope">
+                                        <q-item v-bind="scope.itemProps">
+                                            <q-item-section avatar>
+                                                <q-img :src="scope.opt.weapon.icon" />
+                                            </q-item-section>
+                                            <q-item-section>
+                                                <q-item-label>{{ scope.opt.weapon.name }}</q-item-label>
+                                                <q-item-label caption>{{ scope.opt.level }}</q-item-label>
+                                            </q-item-section>
+                                        </q-item>
+                                    </template>
+                                </q-select>
+                            </div>
+                            <div class="col-3">
                                 <q-select filled
                                     v-model="actual_model.level"
                                     :options="levels"
                                     label="Level" />
                             </div>
-                            <div class="col-2">
+                            <div class="col-3">
                                 <q-select filled
                                     v-model="actual_model.constellation_level"
                                     :options="constellation_levels"
                                     label="Constellation Level" />
+                            </div>
+                            <div class="col-3">
+                                <q-select filled
+                                    v-model="actual_model.basic_talent_level"
+                                    :options="basic_talent_levels"
+                                    label="Basic Talent Level" />
+                            </div>
+                            <div class="col-3">
+                                <q-select filled
+                                    v-model="actual_model.elemental_talent_level"
+                                    :options="elemental_talent_levels"
+                                    label="Elemental Talent Level"
+                                    hint="Without constellations upgrade" />
+                            </div>
+                            <div class="col-3">
+                                <q-select filled
+                                    v-model="actual_model.burst_talent_level"
+                                    :options="burst_talent_levels"
+                                    label="Burst Talent Level"
+                                    hint="Without constellations upgrade" />
                             </div>
                         </div>
                     </div>
@@ -105,6 +162,7 @@ import CharacterModel from '@/classes/models/Characters/CharacterModel'
 import { useRouter, useRoute } from 'vue-router'
 import { useVuelidate } from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
+import AccountWeaponModel from '@/classes/models/Account/Weapon/WeaponModel'
 
 const store$ = useCharactersStore()
 const router = useRouter()
@@ -119,23 +177,38 @@ let goBack = () => {
 }
 
 let character_search: Ref<string | null> = ref(null)
-let availableCharacters = computed(() => {
+let characters = computed(() => {
     return store$.characters.filter(character => {
         if (character_search.value != null && character.name.toLocaleUpperCase().indexOf(character_search.value.toLocaleUpperCase()) < 0) return false
         return true
     })
 })
-let filterAvailableCharacters = (val: string, done: Function) => {
+let filterCharacters = (val: string, done: Function) => {
     character_search.value = val
+    done()
+}
+let selectCharacter = ($event: CharacterModel) => {
+    if (actual_model.account_weapon && actual_model.account_weapon.weapon && actual_model.account_weapon.weapon.weapon_type_id != $event.weapon_type_id) actual_model.account_weapon = null
+}
+
+let account_weapon_search: Ref<string | null> = ref(null)
+let account_weapons = computed(() => {
+    return store$.account_weapons.filter((account_weapon: AccountWeaponModel) => {
+        if (account_weapon_search.value != null && account_weapon.weapon && account_weapon.weapon.name.toLocaleUpperCase().indexOf(account_weapon_search.value.toLocaleUpperCase()) < 0) return false
+        if (actual_model.character && account_weapon.weapon && account_weapon.weapon.weapon_type_id != actual_model.character.weapon_type_id) return false
+        return true
+    })
+})
+let filterWeapons = (val: string, done: Function) => {
+    account_weapon_search.value = val
     done()
 }
 
 let levels = ['1', '20', '20+', '40', '40+', '50', '50+', '60', '60+', '70', '70+', '80', '80+', '90']
 let constellation_levels = [0, 1, 2, 3, 4, 5, 6]
-
-let selectCharacter = (character: CharacterModel) => {
-    //
-}
+let basic_talent_levels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+let elemental_talent_levels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+let burst_talent_levels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 let handleFormSubmit = () => {
 
@@ -164,6 +237,7 @@ const rules = computed(() => {
     return {
         actual_model: {
             character: { required },
+            account_weapon: { required },
             level: { required },
             constellation_level: { required },
         },
@@ -183,7 +257,6 @@ onMounted(async () => {
         if (response) actual_model.fill(response)
     } else {
         await store$.create()
-        console.log('ActualModel: ', actual_model)
     }
     loading.value = false
 })

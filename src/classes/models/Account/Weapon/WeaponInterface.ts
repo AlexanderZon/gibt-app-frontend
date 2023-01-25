@@ -4,9 +4,9 @@ import ModelInterface from "../../ModelInterface"
 
 interface AccountWeaponInterface extends ModelInterface {
     account_id?: number
-    account?: AccountInterface
+    account?: AccountInterface | null
     weapon_id?: number
-    weapon?: WeaponInterface
+    weapon?: WeaponInterface | null
     level?: string
     refinement_rank?: number
 }

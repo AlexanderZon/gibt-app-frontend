@@ -6,8 +6,7 @@
             @mouseover="weaponCardMouseOverEvent"
             @mouseleave="weaponCardMouseLeaveEvent">
             <q-card-section class="row items-center q-pa-none">
-                <q-img v-if="accountWeapon.weapon.icon"
-                    :src="accountWeapon.weapon.icon">
+                <q-img :src="accountWeaponIcon">
                     <div class="weapon-name absolute-bottom text-subtitle2 text-center q-pa-none">
                         {{ accountWeapon.weapon.name }}
                     </div>
@@ -37,7 +36,7 @@
         </q-card>
         <q-dialog v-model="delete_confirm"
             persistent>
-            <q-card>
+            <q-card v-if="accountWeapon.weapon">
                 <q-card-section class="row items-center">
                     <q-avatar v-if="accountWeapon.weapon.icon"
                         text-color="white">
@@ -64,7 +63,7 @@
 
 <script setup lang="ts">
 import AccountWeaponModel from '@/classes/models/Account/Weapon/WeaponModel'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import type { Ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useWeaponsStore } from '@/stores/weapons/index'
@@ -91,6 +90,15 @@ let weaponCardMouseLeaveEvent = () => {
 let showConfirmDeleteDialog = () => {
     delete_confirm.value = true
 }
+
+let accountWeaponIcon = computed(() => {
+    if (props.accountWeapon.level != '1' && props.accountWeapon.level != '20' && props.accountWeapon.level != '20+' && props.accountWeapon.level != '40') {
+        return props.accountWeapon.weapon.awakened_icon
+    } else {
+        console.log('level: ', props.accountWeapon.level)
+        return props.accountWeapon.weapon.icon
+    }
+})
 
 let deleteWeapon = async () => {
     delete_loading.value = true

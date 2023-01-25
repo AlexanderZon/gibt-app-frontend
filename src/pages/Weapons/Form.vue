@@ -16,6 +16,7 @@
                         <q-btn flat
                             round
                             dense
+                            :loading="loading"
                             @click="handleFormSubmit">
                             <q-icon name="mdi-content-save" />
                         </q-btn>

@@ -7,7 +7,7 @@
                     <q-avatar>
                         <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
                     </q-avatar>
-                    <div class="">Genshin Impact Building Tool</div>
+                    <div class="q-ml-sm">Genshin Impact Building Tool</div>
                 </div>
             </q-toolbar-title>
         </q-toolbar>

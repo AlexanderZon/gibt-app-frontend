@@ -1,7 +1,7 @@
 <template>
     <q-page padding>
         <div class="q-pa-md">
-            <div class="q-gutter-md row">
+            <div class="q-col-gutter-md row">
                 <div class="col-1">
                     <q-card class="weapon-card void text-white"
                         style="">
