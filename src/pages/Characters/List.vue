@@ -47,26 +47,3 @@ onBeforeMount(async () => {
     await store$.get()
 })
 </script>
-
-<style lang="sass">
-.character-card
-    cursor: pointer
-    min-height: 130px
-    text-align: center
-    &.void
-        background: linear-gradient(135deg, #014a88 0%, #35a2ff 100%)
-    &.rarity-5
-        background: linear-gradient(135deg, #6C5652 0%, #E5AF57 100%)
-    &.rarity-4
-        background: linear-gradient(135deg, #5F5581 0%, #B085C8 100%)
-    .q-card__section 
-        min-height: 130px
-    .character-name
-        padding: 0 !important
-    .q-img
-        position: absolute
-        bottom: 0
-        height: 130px
-        img 
-            padding-bottom: 22px
-</style>

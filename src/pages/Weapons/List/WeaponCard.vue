@@ -1,14 +1,14 @@
 <template>
     <div>
-        <q-card class="character-card text-white"
-            :class="{ 'rarity-5': accountCharacter.character.rarity == 5, 'rarity-4': accountCharacter.character.rarity == 4 }"
-            @mouseover="characterCardMouseOverEvent"
-            @mouseleave="characterCardMouseLeaveEvent">
+        <q-card class="weapon-card text-white"
+            :class="{ 'rarity-5': accountWeapon.weapon.rarity == 5, 'rarity-4': accountWeapon.weapon.rarity == 4 }"
+            @mouseover="weaponCardMouseOverEvent"
+            @mouseleave="weaponCardMouseLeaveEvent">
             <q-card-section class="row items-center q-pa-none">
-                <q-img v-if="accountCharacter.character.icon"
-                    :src="accountCharacter.character.icon">
-                    <div class="character-name absolute-bottom text-subtitle2 text-center q-pa-none">
-                        {{ accountCharacter.character.name }}
+                <q-img v-if="accountWeapon.weapon.icon"
+                    :src="accountWeapon.weapon.icon">
+                    <div class="weapon-name absolute-bottom text-subtitle2 text-center q-pa-none">
+                        {{ accountWeapon.weapon.name }}
                     </div>
                 </q-img>
                 <div class="overed"
@@ -19,7 +19,7 @@
                                 color="amber"
                                 size="sm"
                                 icon="mdi-pencil"
-                                @click="goToCharactersForm" />
+                                @click="goToWeaponsForm" />
                             <q-btn round
                                 color="red"
                                 size="sm"
@@ -38,11 +38,11 @@
             persistent>
             <q-card>
                 <q-card-section class="row items-center">
-                    <q-avatar v-if="accountCharacter.character.icon"
+                    <q-avatar v-if="accountWeapon.weapon.icon"
                         text-color="white">
-                        <img :src="accountCharacter.character.icon" />
+                        <img :src="accountWeapon.weapon.icon" />
                     </q-avatar>
-                    <span class="q-ml-sm">Are you sure to delete <strong>{{ accountCharacter.character.name }}</strong>?.</span>
+                    <span class="q-ml-sm">Are you sure to delete <strong>{{ accountWeapon.weapon.name }}</strong>?.</span>
                 </q-card-section>
 
                 <q-card-actions align="right">
@@ -54,7 +54,7 @@
                         :loading="delete_loading"
                         label="Yes, Delete"
                         color="red"
-                        @click="deleteCharacter" />
+                        @click="deleteWeapon" />
                 </q-card-actions>
             </q-card>
         </q-dialog>
@@ -62,28 +62,28 @@
 </template>
 
 <script setup lang="ts">
-import AccountCharacterModel from '@/classes/models/Account/Characters/CharacterModel'
+import AccountWeaponModel from '@/classes/models/Account/Weapon/WeaponModel'
 import { ref } from 'vue'
 import type { Ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useCharactersStore } from '@/stores/characters/index'
+import { useWeaponsStore } from '@/stores/weapons/index'
 
 const props = defineProps({
-    accountCharacter: { type: AccountCharacterModel, required: true }
+    accountWeapon: { type: AccountWeaponModel, required: true }
 })
 
-const store$ = useCharactersStore()
+const store$ = useWeaponsStore()
 const router = useRouter()
 
 let overed: Ref<boolean> = ref(false)
 let delete_loading: Ref<boolean> = ref(false)
 let delete_confirm: Ref<boolean> = ref(false)
 
-let characterCardMouseOverEvent = () => {
+let weaponCardMouseOverEvent = () => {
     overed.value = true
 }
 
-let characterCardMouseLeaveEvent = () => {
+let weaponCardMouseLeaveEvent = () => {
     overed.value = false
 }
 
@@ -91,14 +91,14 @@ let showConfirmDeleteDialog = () => {
     delete_confirm.value = true
 }
 
-let deleteCharacter = async () => {
+let deleteWeapon = async () => {
     delete_loading.value = true
-    await store$.delete(props.accountCharacter)
+    await store$.delete(props.accountWeapon)
     delete_loading.value = false
     delete_confirm.value = false
 }
 
-let goToCharactersForm = () => {
-    router.push({ name: 'characters/edit', params: { id: props.accountCharacter.id } })
+let goToWeaponsForm = () => {
+    router.push({ name: 'weapons/edit', params: { id: props.accountWeapon.id } })
 }
 </script>

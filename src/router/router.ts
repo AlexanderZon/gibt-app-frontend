@@ -11,6 +11,9 @@ import CharactersList from '@/pages/Characters/List.vue'
 import CharactersForm from '@/pages/Characters/Form.vue'
 
 import Weapons from '@/pages/Weapons/Index.vue'
+import WeaponsList from '@/pages/Weapons/List.vue'
+import WeaponsForm from '@/pages/Weapons/Form.vue'
+
 import Account from '@/pages/Account/Index.vue'
 import Help from '@/pages/Help/Index.vue'
 
@@ -27,7 +30,13 @@ const routes = [
                     { path: '', name: 'characters', component: CharactersList },
                 ]
             },
-            { path: 'weapons', name: 'weapons', component: Weapons },
+            {
+                path: 'weapons', component: Weapons, children: [
+                    { path: ':id/edit', name: 'weapons/edit', component: WeaponsForm },
+                    { path: 'create', name: 'weapons/create', component: WeaponsForm },
+                    { path: '', name: 'weapons', component: WeaponsList },
+                ]
+            },
             { path: 'account', name: 'account', component: Account },
             { path: 'help', name: 'help', component: Help },
             { path: '', name: 'home', component: Home },
