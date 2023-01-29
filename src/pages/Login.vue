@@ -144,8 +144,6 @@ let user = computed(() => {
 })
 
 onBeforeMount(async () => {
-    login.email = 'amontenegro.sistemas@gmail.com'
-    login.password = 'q1w2e3r4t5.'
     await store$.csrf()
     await store$.check()
     if (user.value != null) {

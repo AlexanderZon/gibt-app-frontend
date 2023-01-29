@@ -9,3 +9,4 @@
  - [-] Visualizar el Arma de los Personajes de los personajes
  - [-] Crear breadmrumbs de en App Bar
  - [-] Mejorar filtro de armas disponibles para personajes en el formulario de edicion de personajes
+ - [-] Mejorar la visualización de los bordes de las sombras de las cards de personajes y armas

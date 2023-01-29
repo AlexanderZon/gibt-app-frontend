@@ -51,19 +51,26 @@ export const useCharactersStore = defineStore('characters', {
             const response = await Http.delete(`${base}/${model.id}`, model)
             this.deleteStoreElement(new AccountCharacterModel(response.data.data))
         },
-        updateStoreElement(character: AccountCharacterModel) {
+        async add(model: AccountCharacterModel) {
+            const response = await Http.post(`${base}/list/add`, model)
+            this.updateStoreElement(new AccountCharacterModel(response.data.data))
+        },
+        async remove(model: AccountCharacterModel) {
+            const response = await Http.post(`${base}/list/remove`, model)
+            this.updateStoreElement(new AccountCharacterModel(response.data.data))
+        },
+        updateStoreElement(model: AccountCharacterModel) {
             let element: AccountCharacterModel | undefined = this.account_characters.find((element: AccountCharacterModel) => {
-                return (element.id == character.id)
+                return (element.id == model.id)
             })
             if (element) {
                 let index: number = this.account_characters.indexOf(element)
-                if (index > -1) this.account_characters.splice(index, 1, character)
+                if (index > -1) this.account_characters.splice(index, 1, model)
             }
         },
-        deleteStoreElement(character: AccountCharacterModel) {
-            console.log('deleting from store: ', character)
+        deleteStoreElement(model: AccountCharacterModel) {
             let element: AccountCharacterModel | undefined = this.account_characters.find((element: AccountCharacterModel) => {
-                return (element.id == character.id)
+                return (element.id == model.id)
             })
             if (element) {
                 let index: number = this.account_characters.indexOf(element)

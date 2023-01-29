@@ -6,11 +6,21 @@
             @mouseover="weaponCardMouseOverEvent"
             @mouseleave="weaponCardMouseLeaveEvent">
             <q-card-section class="row items-center q-pa-none">
-                <q-img :src="accountWeaponIcon">
+                <q-img v-if="accountWeaponIcon"
+                    :src="accountWeaponIcon">
                     <div class="weapon-name absolute-bottom text-subtitle2 text-center q-pa-none">
                         {{ accountWeapon.weapon.name }}
                     </div>
                 </q-img>
+                <div class="weapon-pop weapon-level">
+                    {{ accountWeapon.level }}
+                </div>
+                <div class="weapon-pop weapon-character"
+                    v-if="accountWeapon.account_character">
+                    <q-img v-if="accountWeapon.account_character?.character?.icon"
+                        :src="accountWeapon.account_character?.character?.icon">
+                    </q-img>
+                </div>
                 <div class="overed"
                     v-if="overed">
                     <div class="q-pa-xs">
@@ -93,10 +103,10 @@ let showConfirmDeleteDialog = () => {
 
 let accountWeaponIcon = computed(() => {
     if (props.accountWeapon.level != '1' && props.accountWeapon.level != '20' && props.accountWeapon.level != '20+' && props.accountWeapon.level != '40') {
-        return props.accountWeapon.weapon.awakened_icon
+        if (props.accountWeapon.weapon) return props.accountWeapon.weapon.awakened_icon
     } else {
         console.log('level: ', props.accountWeapon.level)
-        return props.accountWeapon.weapon.icon
+        if (props.accountWeapon.weapon) return props.accountWeapon.weapon.icon
     }
 })
 

@@ -20,7 +20,34 @@
     .q-card__section
         min-height: 130px
     .weapon-name, .character-name
+        padding: 0 5px !important
+        word-break: break-all
+        height: 22px
+        overflow-wrap: break-word
+    .weapon-pop, .character-pop
         padding: 0 !important
+        border-radius: 15px
+        width: 30px
+        height: 30px
+        display: flex
+        justify-content: center
+        align-items: center
+        background-color: rgba(60,60,60,1)
+        border: #DCDCDC solid 2px
+        position: absolute
+        top: -5px
+        left: -5px
+    .weapon-level, .character-level
+        overflow: hidden
+    .character-weapon,.weapon-character
+        top: 30px
+        overflow: hidden
+        .q-img
+            top: 0px
+            height: 50px
+    .character-is-building
+        top: 65px
+        overflow: hidden
     .q-img
         position: absolute
         bottom: 0
@@ -36,3 +63,18 @@
         display: flex
         align-items: center
         justify-content: center
+.weapon-card:hover, .character-card:hover
+    .weapon-pop, .character-pop
+        top: -10px
+        width: 40px
+        height: 40px
+        border-radius: 20px
+        z-index: 9999
+        overflow: hidden
+    .character-weapon, .weapon-character
+        left: 40px
+        .q-img
+            top: -5px
+            height: 65px
+    .character-is-building
+        visibility: hidden

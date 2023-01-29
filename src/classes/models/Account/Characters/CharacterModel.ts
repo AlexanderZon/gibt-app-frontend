@@ -27,6 +27,7 @@ class AccountCharacterModel implements AccountCharacterInterface {
     declare artf_goblet_level: number
     declare artf_circlet_id: number
     declare artf_circlet_level: number
+    declare is_building: boolean
 
     constructor(data: AccountCharacterInterface = {}) {
         this.fill(data)
@@ -110,6 +111,11 @@ class AccountCharacterModel implements AccountCharacterInterface {
         }
         if (data.artf_circlet_level) {
             this.artf_circlet_level = data.artf_circlet_level
+        }
+        if (data.is_building) {
+            this.is_building = data.is_building
+        } else {
+            this.is_building = false
         }
     }
 }

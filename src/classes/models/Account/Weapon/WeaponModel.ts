@@ -1,11 +1,13 @@
 import WeaponModel from '../../Weapon/WeaponModel'
 import AccountModel from '../AccountModel'
+import AccountCharacterModel from '../Characters/CharacterModel'
 import AccountWeaponInterface from './WeaponInterface'
 
 class AccountWeaponModel implements AccountWeaponInterface {
     declare id: string | number | null
     declare account_id: number
     declare account: AccountModel | null
+    declare account_character: AccountCharacterModel | null
     declare weapon_id: number
     declare weapon: WeaponModel | null
     declare level: string
@@ -34,6 +36,11 @@ class AccountWeaponModel implements AccountWeaponInterface {
             this.weapon = new WeaponModel(data.weapon)
         } else {
             this.weapon = null
+        }
+        if (data.account_character) {
+            this.account_character = new AccountCharacterModel(data.account_character)
+        } else {
+            this.account_character = null
         }
         if (data.level) {
             this.level = data.level

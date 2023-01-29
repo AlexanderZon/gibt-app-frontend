@@ -25,6 +25,7 @@ interface AccountCharacterInterface extends ModelInterface {
     artf_goblet_level?: number
     artf_circlet_id?: number
     artf_circlet_level?: number
+    is_building?: boolean
 }
 
 export default AccountCharacterInterface
