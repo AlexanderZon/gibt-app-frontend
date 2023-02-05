@@ -35,10 +35,10 @@
                                 size="sm"
                                 icon="mdi-trash-can"
                                 @click="showConfirmDeleteDialog" />
-                            <q-btn round
+                            <!-- <q-btn round
                                 color="blue"
                                 size="sm"
-                                icon="mdi-playlist-plus" />
+                                icon="mdi-playlist-plus" /> -->
                         </div>
                     </div>
                 </div>
