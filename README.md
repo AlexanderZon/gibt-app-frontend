@@ -1,14 +1,15 @@
- - [-] Relacionar los materiales de farmeo semanales con los dias de semana
- - [-] Desarrollar el dashboard
- - [-] Agregar personajes a la lista de Building
+ - [x] Relacionar los materiales de farmeo semanales con los dias de semana
+ - [x] Agregar personajes a la lista de Building
+ - [x] Visualizar Personajes relacionados al Arma
+ - [x] Visualizar el Nivel de los personajes
+ - [x] Visualizar el Arma de los Personajes
+ - [x] Desarrollar el dashboard
  - [-] Crear módulo de ayuda
  - [-] Crear módulo de gerenciamiento de cuenta
- - [-] Visualizar Personajes relacionados al Arma
  - [-] Crear Logo de la App
- - [-] Visualizar el Nivel de los personajes
- - [-] Visualizar el Arma de los Personajes de los personajes
  - [-] Crear breadmrumbs de en App Bar
  - [-] Mejorar filtro de armas disponibles para personajes en el formulario de edicion de personajes
  - [-] Mejorar la visualización de los bordes de las sombras de las cards de personajes y armas
- - [-] Colocar lista de Coronas para talentos de personajes
  - [-] Colocar modulo de inventario
+ - [-] Posibilidad de colocar el nivel deseado de cada talento de cada personaje
+ - [-] Agrupar los materiales de farmeo en el dashsboard por el id de material

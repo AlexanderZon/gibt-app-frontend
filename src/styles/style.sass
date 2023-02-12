@@ -1,7 +1,7 @@
 #auth-form
     height: calc(100vh - 80px)
 
-.weapon-card, .character-card
+.weapon-card, .character-card, .ascension-material-card
     cursor: pointer
     min-height: 130px
     text-align: center
@@ -19,12 +19,12 @@
         background: linear-gradient(135deg, #4E5764 0%, #888F9A 100%)
     .q-card__section
         min-height: 130px
-    .weapon-name, .character-name
+    .weapon-name, .character-name, .ascension-material-name
         padding: 0 5px !important
         word-break: break-all
         height: 22px
         overflow-wrap: break-word
-    .weapon-pop, .character-pop
+    .weapon-pop, .character-pop, .ascension-material-pop
         padding: 0 !important
         border-radius: 15px
         width: 30px
@@ -39,12 +39,14 @@
         left: -5px
     .weapon-level, .character-level
         overflow: hidden
-    .character-weapon,.weapon-character
+    .character-weapon, .weapon-character, .ascension-material-character, .ascension-material-weapon
         top: 30px
         overflow: hidden
         .q-img
             top: 0px
             height: 50px
+    .ascension-material-character
+        top: -5px
     .character-is-building
         top: 65px
         overflow: hidden
@@ -63,15 +65,15 @@
         display: flex
         align-items: center
         justify-content: center
-.weapon-card:hover, .character-card:hover
-    .weapon-pop, .character-pop
+.weapon-card:hover, .character-card:hover, .ascnesion-material-card:hover
+    .weapon-pop, .character-pop, .ascension-material-pop
         top: -10px
         width: 40px
         height: 40px
         border-radius: 20px
         z-index: 9999
         overflow: hidden
-    .character-weapon, .weapon-character
+    .character-weapon, .weapon-character, .ascension-material-character
         left: 40px
         .q-img
             top: -5px
