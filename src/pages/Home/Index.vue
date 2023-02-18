@@ -9,7 +9,7 @@
             <div class="q-col-gutter-md row">
                 <div class="col-1"
                     v-for="(ascension_material, index) in farmingForToday">
-                    <MaterialCard :ascension-material="ascension_material"></MaterialCard>
+                    <MaterialGroupCard :ascension-material="ascension_material"></MaterialGroupCard>
                 </div>
             </div>
             <div class="row q-my-md">
@@ -20,7 +20,7 @@
             <div class="q-col-gutter-md row">
                 <div class="col-1"
                     v-for="(ascension_material, index) in bossMaterials">
-                    <MaterialCard :ascension-material="ascension_material"></MaterialCard>
+                    <MaterialGroupCard :ascension-material="ascension_material"></MaterialGroupCard>
                 </div>
             </div>
             <div class="row q-my-md">
@@ -31,7 +31,7 @@
             <div class="q-col-gutter-md row">
                 <div class="col-1"
                     v-for="(ascension_material, index) in elementalStones">
-                    <MaterialCard :ascension-material="ascension_material"></MaterialCard>
+                    <MaterialGroupCard :ascension-material="ascension_material"></MaterialGroupCard>
                 </div>
             </div>
             <div class="row q-my-md">
@@ -42,7 +42,7 @@
             <div class="q-col-gutter-md row">
                 <div class="col-1"
                     v-for="(ascension_material, index) in charJewels">
-                    <MaterialCard :ascension-material="ascension_material"></MaterialCard>
+                    <MaterialGroupCard :ascension-material="ascension_material"></MaterialGroupCard>
                 </div>
             </div>
             <div class="row q-my-md">
@@ -53,7 +53,7 @@
             <div class="q-col-gutter-md row">
                 <div class="col-1"
                     v-for="(ascension_material, index) in charLocalMaterials">
-                    <MaterialCard :ascension-material="ascension_material"></MaterialCard>
+                    <MaterialGroupCard :ascension-material="ascension_material"></MaterialGroupCard>
                 </div>
             </div>
             <div class="row q-my-md">
@@ -64,7 +64,7 @@
             <div class="q-col-gutter-md row">
                 <div class="col-1"
                     v-for="(ascension_material, index) in commonMaterials">
-                    <MaterialCard :ascension-material="ascension_material"></MaterialCard>
+                    <MaterialGroupCard :ascension-material="ascension_material"></MaterialGroupCard>
                 </div>
             </div>
             <div class="row q-my-md">
@@ -75,7 +75,7 @@
             <div class="q-col-gutter-md row">
                 <div class="col-1"
                     v-for="(ascension_material, index) in weapSecondaryMaterials">
-                    <MaterialCard :ascension-material="ascension_material"></MaterialCard>
+                    <MaterialGroupCard :ascension-material="ascension_material"></MaterialGroupCard>
                 </div>
             </div>
         </div>
@@ -88,6 +88,8 @@ import { ref, reactive, computed, onBeforeMount } from 'vue'
 import { useDashboardStore } from '@/stores/dashboard/index'
 import { useRouter } from 'vue-router'
 import MaterialCard from './Index/MaterialCard.vue';
+import MaterialGroupCard from './Index/MaterialGroupCard.vue';
+import { AscensionMaterialGroupModel } from '@/classes/models/Account/Dashboard/AscensionMaterialGroup';
 import { CharAscensionMaterialModel } from '@/classes/models/Account/Dashboard/CharAscensionMaterial';
 import { WeapAscensionMaterialModel } from '@/classes/models/Account/Dashboard/WeapAscensionMaterial';
 
@@ -97,45 +99,38 @@ const router = useRouter()
 let loading = ref(false)
 
 let farmingForToday = computed(() => {
-    let ascension_materials_list: Array<CharAscensionMaterialModel | WeapAscensionMaterialModel> = []
-    store$.talent_books.forEach(talent_book => {
+    let ascension_materials_list: Array<AscensionMaterialGroupModel> = []
+    store$.talent_book_groups.forEach(talent_book => {
         if (talent_book.can_farm_today) ascension_materials_list.push(talent_book)
     })
-    store$.weap_primary_materials.forEach(weap_primary_material => {
-        if (weap_primary_material.can_farm_today) ascension_materials_list.push(weap_primary_material)
+    store$.weap_primary_material_groups.forEach(weap_primary_material_group => {
+        if (weap_primary_material_group.can_farm_today) ascension_materials_list.push(weap_primary_material_group)
     })
     return ascension_materials_list
 })
 
 let bossMaterials = computed(() => {
-    return store$.boss_materials
+    return store$.boss_material_groups
 })
 
 let elementalStones = computed(() => {
-    return store$.char_elemental_stones
+    return store$.char_elemental_stone_groups
 })
 
 let charJewels = computed(() => {
-    return store$.char_jewels
+    return store$.char_jewel_groups
 })
 
 let charLocalMaterials = computed(() => {
-    return store$.char_local_materials
+    return store$.char_local_material_groups
 })
 
 let commonMaterials = computed(() => {
-    let ascension_materials_list: Array<CharAscensionMaterialModel | WeapAscensionMaterialModel> = []
-    store$.char_common_items.forEach(char_common_item => {
-        ascension_materials_list.push(char_common_item)
-    })
-    store$.weap_common_items.forEach(weap_common_item => {
-        ascension_materials_list.push(weap_common_item)
-    })
-    return ascension_materials_list
+    return store$.common_material_groups
 })
 
 let weapSecondaryMaterials = computed(() => {
-    return store$.weap_secondary_materials
+    return store$.weap_secondary_material_groups
 })
 
 onBeforeMount(async () => {

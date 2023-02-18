@@ -1,7 +1,7 @@
 #auth-form
     height: calc(100vh - 80px)
 
-.weapon-card, .character-card, .ascension-material-card
+.weapon-card, .character-card, .ascension-material-card, .ascension-material-group-card
     cursor: pointer
     min-height: 130px
     text-align: center
@@ -78,5 +78,54 @@
         .q-img
             top: -5px
             height: 65px
+        .multiple
+            z-index: 9999
+            position: relative
+            top: 10px
+            left: 10px
+            backgroud: rgba(0,0,0,.5)
     .character-is-building
         visibility: hidden
+.ascension-material-group-card
+    .ascension-material-group-pop
+        top: 30px
+        overflow: hidden
+        .q-img
+            top: 0px
+            height: 50px
+    .ascension-material-group-pop-container
+        .ascension-material-group-pop
+            width: 30px
+            height: 30px
+            border-radius: 20px
+            z-index: 9996
+            overflow: hidden
+            padding: 0 !important
+            border-radius: 15px
+            width: 30px
+            height: 30px
+            display: flex
+            justify-content: center
+            align-items: center
+            background-color: rgba(60,60,60,1)
+            border: #DCDCDC solid 2px
+            &.talent
+                left: -10px
+            .q-img
+                position: relative
+                top: 11px
+                height: 50px
+                width: 50px
+    .multiple
+        z-index: 9999
+        background: rgba(0,0,0,1)
+        position: absolute
+        top: 50px
+        left: 10px
+        color: white
+        width: 20px
+        height: 20px
+        overflow: visible
+        border-radius: 20px
+        border: 2px solid white
+        font-size: 10px

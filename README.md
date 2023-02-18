@@ -4,6 +4,8 @@
  - [x] Visualizar el Nivel de los personajes
  - [x] Visualizar el Arma de los Personajes
  - [x] Desarrollar el dashboard
+ - [x] Traer los materiales comunes necesarios para los talentos de personajes
+ - [x] Agrupar los materiales de farmeo en el dashsboard por el id de material
  - [-] Crear módulo de ayuda
  - [-] Crear módulo de gerenciamiento de cuenta
  - [-] Crear Logo de la App
@@ -12,4 +14,6 @@
  - [-] Mejorar la visualización de los bordes de las sombras de las cards de personajes y armas
  - [-] Colocar modulo de inventario
  - [-] Posibilidad de colocar el nivel deseado de cada talento de cada personaje
- - [-] Agrupar los materiales de farmeo en el dashsboard por el id de material
+ - [-] Posibilidad de ver el farmeo de mañana (o de cualquier fecha)
+ - [-] Hacer login con un enter en el formulario de login
+ - [-] Redireccionar para el formulario de Login cuando haya una consulta con respuesta Unauthenticated
