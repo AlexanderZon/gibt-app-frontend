@@ -15,6 +15,8 @@ import WeaponsList from '@/pages/Weapons/List.vue'
 import WeaponsForm from '@/pages/Weapons/Form.vue'
 
 import Account from '@/pages/Account/Index.vue'
+import AccountList from '@/pages/Account/List.vue'
+
 import Help from '@/pages/Help/Index.vue'
 
 // Router
@@ -37,7 +39,11 @@ const routes = [
                     { path: '', name: 'weapons', component: WeaponsList },
                 ]
             },
-            { path: 'account', name: 'account', component: Account },
+            {
+                path: 'account', component: Account, children: [
+                    { path: '', name: 'account', component: AccountList },
+                ]
+            },
             { path: 'help', name: 'help', component: Help },
             { path: '', name: 'home', component: Home },
         ]
