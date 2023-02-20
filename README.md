@@ -8,9 +8,9 @@
  - [x] Agrupar los materiales de farmeo en el dashsboard por el id de material
  - [x] Crear breadmrumbs de en App Bar
  - [x] Crear módulo de gerenciamiento de cuenta
+ - [x] Hacer login con un enter en el formulario de login
+ - [x] Redireccionar para el formulario de Login cuando haya una consulta con respuesta Unauthenticated
  - [-] Posibilidad de ver el farmeo de mañana (o de cualquier fecha)
- - [-] Hacer login con un enter en el formulario de login
- - [-] Redireccionar para el formulario de Login cuando haya una consulta con respuesta Unauthenticated
  - [-] En el dashboard colocar texto para cuando no hay elementos para farmear
  - [-] Implementar animación de loading para el dashboard
  - [-] Ordenar las armas de acuerdo a la rareza y al nivel

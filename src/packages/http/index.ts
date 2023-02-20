@@ -1,4 +1,6 @@
 import { AxiosError } from "axios"
+import router from "@/router/router"
+import { useAuthStore } from '@/stores/auth/index'
 
 interface Trace {
     class: string
@@ -89,6 +91,9 @@ class Http {
                 throw new Error('Server Error', { cause: thrown })
             }
         } else if (thrown.response?.status == 401) {
+            const $store = useAuthStore()
+            $store.user = null
+            router.push({ name: 'login' })
             throw new Error('Unauthorized', { cause: thrown })
         } else {
             throw new Error('Server Error', { cause: thrown })

@@ -83,7 +83,6 @@ export class AscensionMaterialGroupModel implements AscensionMaterialGroupInterf
     }
 
     add(data: WeapAscensionMaterialModel | CharAscensionMaterialModel | TalentAscensionMaterialModel) {
-        console.log('add: ', data)
         if (data instanceof WeapAscensionMaterialModel) {
             this.items.push(new AscensionMaterialGroupWeaponModel({
                 character_icon: data.character_icon,
