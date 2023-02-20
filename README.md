@@ -6,14 +6,20 @@
  - [x] Desarrollar el dashboard
  - [x] Traer los materiales comunes necesarios para los talentos de personajes
  - [x] Agrupar los materiales de farmeo en el dashsboard por el id de material
+ - [x] Crear breadmrumbs de en App Bar
+ - [x] Crear módulo de gerenciamiento de cuenta
+ - [-] Posibilidad de ver el farmeo de mañana (o de cualquier fecha)
+ - [-] Hacer login con un enter en el formulario de login
+ - [-] Redireccionar para el formulario de Login cuando haya una consulta con respuesta Unauthenticated
+ - [-] En el dashboard colocar texto para cuando no hay elementos para farmear
+ - [-] Implementar animación de loading para el dashboard
+ - [-] Ordenar las armas de acuerdo a la rareza y al nivel
+ - [-] Visualizar el nivel de refinamiento de las armas
+ - [-] Visualizar el numero de coronas del personaje
+ - [-] En el Formulario de creación de personaje, en el combobox visualizar el elemento al cual pertenece el personaje
  - [-] Crear módulo de ayuda
- - [-] Crear módulo de gerenciamiento de cuenta
  - [-] Crear Logo de la App
- - [-] Crear breadmrumbs de en App Bar
  - [-] Mejorar filtro de armas disponibles para personajes en el formulario de edicion de personajes
  - [-] Mejorar la visualización de los bordes de las sombras de las cards de personajes y armas
  - [-] Colocar modulo de inventario
  - [-] Posibilidad de colocar el nivel deseado de cada talento de cada personaje
- - [-] Posibilidad de ver el farmeo de mañana (o de cualquier fecha)
- - [-] Hacer login con un enter en el formulario de login
- - [-] Redireccionar para el formulario de Login cuando haya una consulta con respuesta Unauthenticated

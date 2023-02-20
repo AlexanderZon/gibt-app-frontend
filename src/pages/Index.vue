@@ -18,7 +18,7 @@
                             <q-avatar>
                                 <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
                             </q-avatar>
-                            Weapons
+                            {{ title }}
                         </q-toolbar-title>
                     </q-toolbar>
                 </q-header>
@@ -90,14 +90,14 @@ import { useRouter } from 'vue-router';
 import Footer from '@/components/layouts/Footer.vue'
 import { useAuthStore } from '@/stores/auth/index'
 
-const store$ = useAuthStore()
+const $store = useAuthStore()
 
 const leftDrawerOpen = ref(true)
 
 const menuList = [
     {
         icon: 'mdi-view-dashboard-variant',
-        label: 'Dashboard',
+        label: 'Home',
         to: { name: 'home' },
         separator: true
     },
@@ -120,44 +120,64 @@ const menuList = [
         to: { name: 'account' },
         separator: false
     },
-    {
-        icon: 'mdi-help-circle',
-        iconColor: 'primary',
-        to: { name: 'help' },
-        label: 'Help',
-        separator: false
-    }
+    // {
+    //     icon: 'mdi-help-circle',
+    //     iconColor: 'primary',
+    //     to: { name: 'help' },
+    //     label: 'Help',
+    //     separator: false
+    // }
 ]
 
 let toggleLeftDrawer = () => {
     leftDrawerOpen.value = !leftDrawerOpen.value
 }
 
-const router = useRouter()
+const $router = useRouter()
 let loading: Ref<boolean> = ref(true)
 
 let goLogin = () => {
-    router.push({ name: 'login' })
+    $router.push({ name: 'login' })
 }
 
 let logout = async () => {
-    await store$.logout()
+    await $store.logout()
     goLogin()
 }
 
 let user = computed(() => {
-    return store$.user
+    return $store.user
+})
+
+let title = computed(() => {
+    switch ($router.currentRoute.value.name) {
+        case 'characters/edit':
+        case 'characters/create':
+        case 'characters':
+            return `My Characters`
+        case 'weapons/edit':
+        case 'weapons/create':
+        case 'weapons':
+            return `My Weapons`
+        case 'home':
+            return `Home`
+        case 'account':
+            return `Account`
+        case 'help':
+            return `Help`
+    }
 })
 
 onBeforeMount(async () => {
-    await store$.csrf()
-    await store$.check()
+    await $store.csrf()
+    await $store.check()
 
     if (user.value == null) {
         goLogin()
     } else {
         loading.value = false
     }
+    console.log('Route Meta data: ', $router.currentRoute.value.name)
 })
 </script>
 

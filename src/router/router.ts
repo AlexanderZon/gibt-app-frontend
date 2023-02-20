@@ -27,10 +27,10 @@ const routes = [
         path: '/', component: Index, children: [
             {
                 path: 'characters', component: Characters, children: [
-                    { path: ':id/edit', name: 'characters/edit', component: CharactersForm },
-                    { path: 'create', name: 'characters/create', component: CharactersForm },
-                    { path: '', name: 'characters', component: CharactersList },
-                ]
+                    { path: ':id/edit', name: 'characters/edit', component: CharactersForm, meta: { title: 'Update' } },
+                    { path: 'create', name: 'characters/create', component: CharactersForm, meta: { title: 'Create' } },
+                    { path: '', name: 'characters', component: CharactersList, meta: { title: 'List' } },
+                ], meta: { title: 'Characters' }
             },
             {
                 path: 'weapons', component: Weapons, children: [

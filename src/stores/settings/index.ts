@@ -20,6 +20,22 @@ export const useSettingsStore = defineStore('settings ', {
             const response = await Http.post(`${base}/accounts`, model)
             this.accounts.push(new AccountModel(response.data))
         },
+        async updateAccount(model: AccountModel) {
+            const response = await Http.put(`${base}/accounts/${model.id}`, model)
+            let element = this.accounts.find(account => account.id == response.data.id)
+            if (element) {
+                let index = this.accounts.indexOf(element)
+                this.accounts.splice(index, 1, new AccountModel(response.data))
+            }
+        },
+        async deleteAccount(model: AccountModel) {
+            const response = await Http.delete(`${base}/accounts/${model.id}`)
+            let element = this.accounts.find(account => account.id == response.data.id)
+            if (element) {
+                let index = this.accounts.indexOf(element)
+                this.accounts.splice(index, 1)
+            }
+        },
         async setActiveAccount(model: AccountModel) {
             const response = await Http.put(`${base}/accounts/active/${model.id}`)
             this.fillData(response)
