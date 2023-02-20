@@ -25,6 +25,7 @@
                                         <q-input filled
                                             v-model="login.email"
                                             label="Email"
+                                            @keyup.enter="handleLogin"
                                             :error="v$.login.email.$dirty && v$.login.email.$error">
                                             <template v-slot:error>
                                                 <template v-if="v$.login.email.required.$invalid">This field is required</template>
@@ -36,6 +37,7 @@
                                             v-model="login.password"
                                             label="Password"
                                             type="password"
+                                            @keyup.enter="handleLogin"
                                             :error="v$.login.password.$dirty && v$.login.password.$error">
                                             <template v-slot:error>
                                                 <template v-if="v$.login.password.required.$invalid">This field is required</template>
