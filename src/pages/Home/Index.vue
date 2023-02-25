@@ -3,13 +3,31 @@
         <div class="q-pa-md">
             <div class="row q-mb-md">
                 <div class="col">
-                    <span class="text-h6">Farming for today</span>
+                    <span class="text-h6">Farming for
+                        <q-btn flat
+                            round
+                            color="primary"
+                            icon="chevron_left"
+                            :disabled="day <= -3"
+                            @click="() => day--" /> {{ getActualDate }}
+                        <q-btn flat
+                            round
+                            color="primary"
+                            icon="chevron_right"
+                            :disabled="day >= 3"
+                            @click="() => day++" /></span>
                 </div>
             </div>
             <div class="q-col-gutter-md row">
                 <div class="col-1"
+                    v-if="farmingForToday.length > 0"
                     v-for="(ascension_material, index) in farmingForToday">
                     <MaterialGroupCard :ascension-material="ascension_material"></MaterialGroupCard>
+                </div>
+                <div class="col-12"
+                    v-else>
+                    <template v-if="day > 0">There is no farming for <strong>{{ getActualDate }}</strong></template>
+                    <template v-else>There was no farming for <strong>{{ getActualDate }}</strong></template>
                 </div>
             </div>
             <div class="row q-my-md">
@@ -19,9 +37,12 @@
             </div>
             <div class="q-col-gutter-md row">
                 <div class="col-1"
+                    v-if="bossMaterials.length > 0"
                     v-for="(ascension_material, index) in bossMaterials">
                     <MaterialGroupCard :ascension-material="ascension_material"></MaterialGroupCard>
                 </div>
+                <div class="col-12"
+                    v-else>There are no Boss Materials required</div>
             </div>
             <div class="row q-my-md">
                 <div class="col">
@@ -30,9 +51,12 @@
             </div>
             <div class="q-col-gutter-md row">
                 <div class="col-1"
+                    v-if="elementalStones.length > 0"
                     v-for="(ascension_material, index) in elementalStones">
                     <MaterialGroupCard :ascension-material="ascension_material"></MaterialGroupCard>
                 </div>
+                <div class="col-12"
+                    v-else>There are no Elemental Stoned required</div>
             </div>
             <div class="row q-my-md">
                 <div class="col">
@@ -41,9 +65,12 @@
             </div>
             <div class="q-col-gutter-md row">
                 <div class="col-1"
+                    v-if="charJewels.length"
                     v-for="(ascension_material, index) in charJewels">
                     <MaterialGroupCard :ascension-material="ascension_material"></MaterialGroupCard>
                 </div>
+                <div class="col-12"
+                    v-else>There are no Char Jewels required</div>
             </div>
             <div class="row q-my-md">
                 <div class="col">
@@ -52,9 +79,12 @@
             </div>
             <div class="q-col-gutter-md row">
                 <div class="col-1"
+                    v-if="charLocalMaterials.length > 0"
                     v-for="(ascension_material, index) in charLocalMaterials">
                     <MaterialGroupCard :ascension-material="ascension_material"></MaterialGroupCard>
                 </div>
+                <div class="col-12"
+                    v-else>There are no Local Materials required</div>
             </div>
             <div class="row q-my-md">
                 <div class="col">
@@ -63,9 +93,12 @@
             </div>
             <div class="q-col-gutter-md row">
                 <div class="col-1"
+                    v-if="commonMaterials.length > 0"
                     v-for="(ascension_material, index) in commonMaterials">
                     <MaterialGroupCard :ascension-material="ascension_material"></MaterialGroupCard>
                 </div>
+                <div class="col-12"
+                    v-else>There are no Common Materials required</div>
             </div>
             <div class="row q-my-md">
                 <div class="col">
@@ -74,39 +107,52 @@
             </div>
             <div class="q-col-gutter-md row">
                 <div class="col-1"
+                    v-if="weapSecondaryMaterials.length > 0"
                     v-for="(ascension_material, index) in weapSecondaryMaterials">
                     <MaterialGroupCard :ascension-material="ascension_material"></MaterialGroupCard>
                 </div>
+                <div class="col-12"
+                    v-else>There are no Weapon Secondary Materials required</div>
             </div>
         </div>
     </q-page>
 </template>
 
 <script setup lang="ts">
-import { AxiosError, AxiosResponse } from 'axios';
 import { ref, reactive, computed, onBeforeMount } from 'vue'
 import { useDashboardStore } from '@/stores/dashboard/index'
-import { useRouter } from 'vue-router'
-import MaterialCard from './Index/MaterialCard.vue';
 import MaterialGroupCard from './Index/MaterialGroupCard.vue';
 import { AscensionMaterialGroupModel } from '@/classes/models/Account/Dashboard/AscensionMaterialGroup';
-import { CharAscensionMaterialModel } from '@/classes/models/Account/Dashboard/CharAscensionMaterial';
-import { WeapAscensionMaterialModel } from '@/classes/models/Account/Dashboard/WeapAscensionMaterial';
 
 const store$ = useDashboardStore()
-const router = useRouter()
 
 let loading = ref(false)
 
+let day = ref(0);
 let farmingForToday = computed(() => {
     let ascension_materials_list: Array<AscensionMaterialGroupModel> = []
-    store$.talent_book_groups.forEach(talent_book => {
-        if (talent_book.can_farm_today) ascension_materials_list.push(talent_book)
-    })
-    store$.weap_primary_material_groups.forEach(weap_primary_material_group => {
-        if (weap_primary_material_group.can_farm_today) ascension_materials_list.push(weap_primary_material_group)
-    })
+    if (store$.day_farming_groups.length > 0) {
+        // store$.talent_book_groups.forEach(talent_book => {
+        //     if (talent_book.can_farm_today) ascension_materials_list.push(talent_book)
+        // })
+        store$.day_farming_groups[day.value].talent_book_groups.forEach(talent_book => {
+            if (talent_book.can_farm_today) ascension_materials_list.push(talent_book)
+        })
+        // store$.weap_primary_material_groups.forEach(weap_primary_material_group => {
+        //     if (weap_primary_material_group.can_farm_today) ascension_materials_list.push(weap_primary_material_group)
+        // })
+        store$.day_farming_groups[day.value].weap_primary_material_groups.forEach(weap_primary_material => {
+            if (weap_primary_material.can_farm_today) ascension_materials_list.push(weap_primary_material)
+        })
+    }
     return ascension_materials_list
+})
+let getActualDate = computed(() => {
+    if (store$.day_farming_groups.length > 0) {
+        let date = new Date(store$.day_farming_groups[day.value].date)
+        return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`
+    }
+    return null
 })
 
 let bossMaterials = computed(() => {

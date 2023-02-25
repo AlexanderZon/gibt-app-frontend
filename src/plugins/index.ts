@@ -14,7 +14,9 @@ import '@/styles/style.sass'
 // Types
 import type { App } from 'vue'
 
+
 export function registerPlugins(app: App) {
+    // app.use(vueMoment);
     app.use(quasar, {
         plugins: {}, // import Quasar plugins and add here
     })

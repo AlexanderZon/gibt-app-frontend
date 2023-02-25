@@ -10,8 +10,9 @@
  - [x] Crear módulo de gerenciamiento de cuenta
  - [x] Hacer login con un enter en el formulario de login
  - [x] Redireccionar para el formulario de Login cuando haya una consulta con respuesta Unauthenticated
- - [-] Posibilidad de ver el farmeo de mañana (o de cualquier fecha)
- - [-] En el dashboard colocar texto para cuando no hay elementos para farmear
+ - [x] Posibilidad de ver el farmeo de mañana (o de cualquier fecha)
+ - [x] En el dashboard colocar texto para cuando no hay elementos para farmear
+ - [x] Disminuir las horas de acuerdo a la hora del server
  - [-] Implementar animación de loading para el dashboard
  - [-] Ordenar las armas de acuerdo a la rareza y al nivel
  - [-] Visualizar el nivel de refinamiento de las armas
@@ -23,3 +24,5 @@
  - [-] Mejorar la visualización de los bordes de las sombras de las cards de personajes y armas
  - [-] Colocar modulo de inventario
  - [-] Posibilidad de colocar el nivel deseado de cada talento de cada personaje
+ - [-] Posibilidad de colocar en la lista de personajes a los personajes no lanzados
+ - [-] Posibilidad de agregar personajes aún no obtenidos en el gachapon
