@@ -11,8 +11,13 @@
                             bordered>
                             <q-card-section class="q-pt-xs">
                                 <div class="row">
+                                    <div class="col-12 text-center q-mt-lg">
+                                        <img src="/icon.png"
+                                            width="65"
+                                            alt="">
+                                    </div>
                                     <div class="col-12">
-                                        <div class="text-h5 q-mt-lg q-mb-lg text-center">Signup Successed</div>
+                                        <div class="text-h5 q-mt-sm q-mb-lg text-center">Signup Successed</div>
                                     </div>
                                     <div class="col-12 q-mt-sm">
                                         Your account were registered successfully, try to login clicking in the button below.
@@ -39,8 +44,13 @@
                             bordered>
                             <q-card-section class="q-pt-xs">
                                 <div class="row">
+                                    <div class="col-12 text-center q-mt-lg">
+                                        <img src="/icon.png"
+                                            width="65"
+                                            alt="">
+                                    </div>
                                     <div class="col-12">
-                                        <div class="text-h5 q-mt-lg q-mb-lg text-center">Signup Form</div>
+                                        <div class="text-h5 q-mt-sm q-mb-lg text-center">Signup Form</div>
                                     </div>
                                     <div class="col-12 q-mt-sm">
                                         <q-input filled

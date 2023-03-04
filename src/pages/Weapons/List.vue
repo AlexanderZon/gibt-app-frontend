@@ -7,7 +7,7 @@
                         style="">
                         <q-card-section class="row items-center"
                             @click="goToWeaponsForm()">
-                            <div class="text-h6">Add Weapon</div>
+                            <div>Add Weapon</div>
                         </q-card-section>
                     </q-card>
                 </div>
@@ -25,6 +25,7 @@ import { ref, reactive, computed, onBeforeMount } from 'vue'
 import { useWeaponsStore } from '@/stores/weapons/index'
 import { useRouter } from 'vue-router'
 import WeaponCard from './List/WeaponCard.vue';
+import AccountWeaponModel from '@/classes/models/Account/Weapon/WeaponModel';
 
 const store$ = useWeaponsStore()
 const router = useRouter()
@@ -40,7 +41,19 @@ let goToWeaponsForm = (weapon_id?: number) => {
 }
 
 let weapons = computed(() => {
-    return store$.account_weapons
+    return store$.account_weapons.sort((a: AccountWeaponModel, b: AccountWeaponModel): number => {
+        if (a.weapon && b.weapon) {
+            if (a.weapon.rarity > b.weapon.rarity) return -1
+            else if (a.weapon.rarity < b.weapon.rarity) return 1
+            else {
+                if (a.level > b.level) return -1
+                else if (a.level < b.level) return 1
+                else return 0
+            }
+        } else {
+            return 0
+        }
+    })
 })
 
 onBeforeMount(async () => {

@@ -21,6 +21,10 @@
                         :src="accountWeapon.account_character?.character?.icon">
                     </q-img>
                 </div>
+                <div class="weapon-refinement-rank"
+                    :class="{ 'rank-5': accountWeapon.refinement_rank == 5, 'rank-4': accountWeapon.refinement_rank == 4, 'rank-3': accountWeapon.refinement_rank == 3, 'rank-2': accountWeapon.refinement_rank == 2, 'rank-1': accountWeapon.refinement_rank == 1 }">
+                    {{ accountWeapon.refinement_rank }}
+                </div>
                 <div class="overed"
                     v-if="overed">
                     <div class="q-pa-xs">
@@ -35,10 +39,6 @@
                                 size="sm"
                                 icon="mdi-trash-can"
                                 @click="showConfirmDeleteDialog" />
-                            <!-- <q-btn round
-                                color="blue"
-                                size="sm"
-                                icon="mdi-playlist-plus" /> -->
                         </div>
                     </div>
                 </div>
@@ -105,7 +105,6 @@ let accountWeaponIcon = computed(() => {
     if (props.accountWeapon.level != '1' && props.accountWeapon.level != '20' && props.accountWeapon.level != '20+' && props.accountWeapon.level != '40') {
         if (props.accountWeapon.weapon) return props.accountWeapon.weapon.awakened_icon
     } else {
-        console.log('level: ', props.accountWeapon.level)
         if (props.accountWeapon.weapon) return props.accountWeapon.weapon.icon
     }
 })

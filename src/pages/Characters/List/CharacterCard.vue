@@ -26,6 +26,10 @@
                     v-if="accountCharacter.is_building">
                     <q-icon name="mdi-hammer-wrench" />
                 </div>
+                <div class="character-crowns"
+                    v-if="crowns > 0">
+                    {{ crowns }}<q-icon name="mdi-crown" />
+                </div>
                 <div class="overed"
                     v-if="overed">
                     <div class="q-pa-xs">
@@ -136,7 +140,7 @@
 
 <script setup lang="ts">
 import AccountCharacterModel from '@/classes/models/Account/Characters/CharacterModel'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import type { Ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useCharactersStore } from '@/stores/characters/index'
@@ -197,6 +201,14 @@ let removeCharacterToList = async () => {
     remove_to_characters_list_loading.value = false
     remove_to_characters_list_dialog.value = false
 }
+
+let crowns = computed(() => {
+    let crowns = 0
+    if (props.accountCharacter.basic_talent_level == 10) crowns++
+    if (props.accountCharacter.elemental_talent_level == 10) crowns++
+    if (props.accountCharacter.burst_talent_level == 10) crowns++
+    return crowns
+})
 
 let goToCharactersForm = () => {
     router.push({ name: 'characters/edit', params: { id: props.accountCharacter.id } })

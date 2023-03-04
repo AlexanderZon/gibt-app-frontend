@@ -3,19 +3,40 @@
         <div class="q-pa-md">
             <div class="row q-mb-md">
                 <div class="col">
-                    <span class="text-h6">Farming for
-                        <q-btn flat
-                            round
-                            color="primary"
-                            icon="chevron_left"
-                            :disabled="day <= -3"
-                            @click="() => day--" /> {{ getActualDate }}
-                        <q-btn flat
-                            round
-                            color="primary"
-                            icon="chevron_right"
-                            :disabled="day >= 3"
-                            @click="() => day++" /></span>
+                    <span class="farming-label text-h6">Farming for
+                        <span class="farming-nav">
+                            <q-btn flat
+                                round
+                                color="primary"
+                                icon="chevron_left"
+                                :disabled="day <= -3"
+                                @click="() => day--" />
+                            <span class="farming-nav-label">
+                                {{ getActualDate }}
+                                <template v-if="day == 0">
+                                    <em class="today">(today)</em>
+                                </template>
+                                <template v-else-if="day == 1">
+                                    <em>(tomorrow)</em>
+                                </template>
+                                <template v-else-if="day == -1">
+                                    <em>(yesterday)</em>
+                                </template>
+                                <template v-else-if="day > 0">
+                                    <em>(+{{ day }} days)</em>
+                                </template>
+                                <template v-else="day < 0">
+                                    <em>({{ day }} days)</em>
+                                </template>
+                            </span>
+                            <q-btn flat
+                                round
+                                color="primary"
+                                icon="chevron_right"
+                                :disabled="day >= 3"
+                                @click="() => day++" />
+                        </span>
+                    </span>
                 </div>
             </div>
             <div class="q-col-gutter-md row">
@@ -121,8 +142,9 @@
 <script setup lang="ts">
 import { ref, reactive, computed, onBeforeMount } from 'vue'
 import { useDashboardStore } from '@/stores/dashboard/index'
-import MaterialGroupCard from './Index/MaterialGroupCard.vue';
-import { AscensionMaterialGroupModel } from '@/classes/models/Account/Dashboard/AscensionMaterialGroup';
+import MaterialGroupCard from './Index/MaterialGroupCard.vue'
+import { AscensionMaterialGroupModel } from '@/classes/models/Account/Dashboard/AscensionMaterialGroup'
+import moment from 'moment'
 
 const store$ = useDashboardStore()
 
@@ -149,8 +171,8 @@ let farmingForToday = computed(() => {
 })
 let getActualDate = computed(() => {
     if (store$.day_farming_groups.length > 0) {
-        let date = new Date(store$.day_farming_groups[day.value].date)
-        return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`
+        let date = moment(store$.day_farming_groups[day.value].date)
+        return `${date.format('LL')}`
     }
     return null
 })

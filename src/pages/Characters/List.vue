@@ -3,11 +3,10 @@
         <div class="q-pa-md">
             <div class="q-col-gutter-md row">
                 <div class="col-lg-1 col-xs-3 col-sm-2">
-                    <q-card class="character-card void text-white"
-                        style="">
+                    <q-card class="character-card void text-white">
                         <q-card-section class="row items-center"
                             @click="goToCharactersForm()">
-                            <div class="text-h6">Add Character</div>
+                            <div>Add Character</div>
                         </q-card-section>
                     </q-card>
                 </div>

@@ -5,7 +5,7 @@
             <q-toolbar-title>
                 <div class="row">
                     <q-avatar>
-                        <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
+                        <img :src="logo">
                     </q-avatar>
                     <div class="q-ml-sm">Genshin Impact Building Tool</div>
                 </div>
@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-    //
+const logo = new URL('@/assets/logo.png', import.meta.url).href
 </script>
 
 <style lang="sass">

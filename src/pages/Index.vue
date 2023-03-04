@@ -13,10 +13,9 @@
                             round
                             icon="menu"
                             @click="toggleLeftDrawer" />
-
                         <q-toolbar-title>
                             <q-avatar>
-                                <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
+                                <img :src="logo">
                             </q-avatar>
                             {{ title }}
                         </q-toolbar-title>
@@ -89,6 +88,7 @@ import type { Ref } from 'vue'
 import { useRouter } from 'vue-router';
 import Footer from '@/components/layouts/Footer.vue'
 import { useAuthStore } from '@/stores/auth/index'
+const logo = new URL('@/assets/logo.png', import.meta.url).href
 
 const $store = useAuthStore()
 
@@ -120,13 +120,6 @@ const menuList = [
         to: { name: 'account' },
         separator: false
     },
-    // {
-    //     icon: 'mdi-help-circle',
-    //     iconColor: 'primary',
-    //     to: { name: 'help' },
-    //     label: 'Help',
-    //     separator: false
-    // }
 ]
 
 let toggleLeftDrawer = () => {
@@ -177,7 +170,6 @@ onBeforeMount(async () => {
     } else {
         loading.value = false
     }
-    console.log('Route Meta data: ', $router.currentRoute.value.name)
 })
 </script>
 
@@ -189,8 +181,6 @@ onBeforeMount(async () => {
     .scroll 
         margin-top: 0px
 .q-page-container
-    // min-height: calc(100vh)
-    // max-height: calc(100vh)
     padding-top: 0 !important
     padding-bottom: 0 !important
 

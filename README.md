@@ -13,15 +13,15 @@
  - [x] Posibilidad de ver el farmeo de mañana (o de cualquier fecha)
  - [x] En el dashboard colocar texto para cuando no hay elementos para farmear
  - [x] Disminuir las horas de acuerdo a la hora del server
+ - [x] Crear Logo de la App
+ - [x] Ordenar las armas de acuerdo a la rareza y al nivel
+ - [x] Visualizar el nivel de refinamiento de las armas
+ - [x] Visualizar el numero de coronas del personaje
+ - [x] Mejorar la visualización de los bordes de las sombras de las cards de personajes y armas
  - [-] Implementar animación de loading para el dashboard
- - [-] Ordenar las armas de acuerdo a la rareza y al nivel
- - [-] Visualizar el nivel de refinamiento de las armas
- - [-] Visualizar el numero de coronas del personaje
  - [-] En el Formulario de creación de personaje, en el combobox visualizar el elemento al cual pertenece el personaje
  - [-] Crear módulo de ayuda
- - [-] Crear Logo de la App
  - [-] Mejorar filtro de armas disponibles para personajes en el formulario de edicion de personajes
- - [-] Mejorar la visualización de los bordes de las sombras de las cards de personajes y armas
  - [-] Colocar modulo de inventario
  - [-] Posibilidad de colocar el nivel deseado de cada talento de cada personaje
  - [-] Posibilidad de colocar en la lista de personajes a los personajes no lanzados

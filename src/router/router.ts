@@ -19,7 +19,6 @@ import AccountList from '@/pages/Account/List.vue'
 
 import Help from '@/pages/Help/Index.vue'
 
-// Router
 import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
 
 const routes = [
